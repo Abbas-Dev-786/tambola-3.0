@@ -19,7 +19,7 @@ const Login = () => {
 
   //function to login user
   const handlelogin = async () => {
-    let result = await fetch("https://tambola-backend.vercel.app/login", {
+    let result = await fetch("http://127.0.0.1:5000/login", {
       method: "POST",
       body: JSON.stringify({ user, password }),
       headers: {
