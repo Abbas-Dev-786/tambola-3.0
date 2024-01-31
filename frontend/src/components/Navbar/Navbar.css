@@ -1,0 +1,85 @@
+.nav-ul li {
+    display: inline-block;
+    padding: 10px;
+}
+
+.nav-ul li a {
+    color: #fff;
+    padding: 5px;
+    text-decoration: none;
+}
+
+.nav-ul {
+    padding: 15px;
+    margin: 0;
+    background-color: #252525;
+}
+
+.nav-right {
+    text-align: right;
+}
+
+.logo {
+    width: 70px;
+    float: left;
+    margin-left: 20px;
+    margin-top: 2px;
+}
+
+#logout {
+    font-size: 0.8rem;
+    font-weight: 600;
+    background-color: transparent;
+    border-color: #fff;
+    border-radius: 10px;
+}
+
+#handRaiseButton {
+    border: none;
+    border-radius: 20px;
+    font-size: 1.3rem;
+    margin-top: -5px;
+}
+
+#handRaise {
+    padding: -10px;
+}
+
+#handRaiseButton:active {
+    transform: translateY(2px);
+}
+
+@media only screen and (max-width: 786px) {
+    .logo {
+        margin-top: 10px;
+    }
+
+    .nav-ul {
+        padding: 26px;
+    }
+
+    .login {
+        margin-left: 3%;
+    }
+
+    #handRaiseButton {
+        width: 10.813rem;
+        cursor: pointer;
+    }
+
+}
+
+@media only screen and (min-width: 786px) {
+    .nav-ul {
+        padding: 18px;
+    }
+
+    #handRaise {
+        float: right;
+    }
+
+    #handRaiseButton {
+        width: 10.813rem;
+        margin-left: 5rem;
+    }
+}

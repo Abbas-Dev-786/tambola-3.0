@@ -1,0 +1,56 @@
+.tambola-ticket {
+    display: grid;
+    grid-template-columns: repeat(9, 38px [col-start]);
+    grid-template-rows: repeat(3, 38px [col-start]);
+    column-gap: 2px;
+    row-gap: 2px;
+    margin-left: 2rem;
+    margin-right: 2rem;
+    position: absolute;
+    top: 50%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+    margin-left: 2rem;
+    margin-right: 2rem;
+}
+
+.tambola-ticket-cell {
+    background-color: #eee;
+    border-radius: 3px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #555;
+    cursor: pointer;
+}
+
+.board {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.striked {
+    background-color: #f7c327;
+    color: #000;
+}
+
+@media only screen and (max-width: 786px) {
+    .tambola-ticket-cell {
+        font-size: 0.4rem;
+    }
+
+}
+
+@media only screen and (min-width: 786px) {
+    .tambola-ticket {
+        grid-template-columns: repeat(9, 120px [col-start]);
+        grid-template-rows: repeat(3, 60px [col-start]);
+        column-gap: 5px;
+        row-gap: 5px;
+        margin-top: 2rem;
+    }
+
+}

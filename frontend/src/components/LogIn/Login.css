@@ -1,0 +1,49 @@
+@import url(https://fonts.googleapis.com/css2?family=Rubik&display=swap);
+
+body {
+    font-family: "Rubik", sans-serif;
+}
+
+#login {
+    margin-left: 25px;
+    font-size: 1.4rem;
+}
+
+.inputBox {
+    display: block;
+    margin: 25px;
+    padding: 8px;
+    width: 300px;
+    border: 1px solid #252525;
+}
+
+.login {
+    margin-left: 30%;
+    margin-top: 100px;
+}
+
+#eventName {
+    font-size: 4rem;
+    margin-top: -50px;
+}
+
+#eventHead {
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+
+.button {
+    margin: 25px;
+    padding: 10px;
+    width: 100px;
+    background-color: #7DC1EB;
+    border: none;
+    cursor: pointer;
+    color: #fff;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.button:hover {
+    background-color: #4FA2D2;
+}
