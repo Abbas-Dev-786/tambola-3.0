@@ -16,7 +16,7 @@ export default function App() {
 
         <Routes>
           {/* routes for Private Components */}
-          <Route element={<PrivateRoute />}>
+          <Route>
             <Route path="/" element={<Ticket />} />
             <Route path="/logout" element={<h1>Logout component</h1>} />
           </Route>
