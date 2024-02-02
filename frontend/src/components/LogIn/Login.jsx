@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
 
@@ -6,7 +7,7 @@ import "./Login.css";
 const Login = () => {
   const [user, setUser] = useState(""); //get user id
   const [password, setPassword] = useState(""); //get password
-
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   //if user is loged In then navigate to ticket or '/' page
@@ -19,26 +20,32 @@ const Login = () => {
 
   //function to login user
   const handlelogin = async () => {
-    let result = await fetch("http://127.0.0.1:5000/login", {
+    setIsLoading(true);
+    const res = await fetch("http://127.0.0.1:5000/login", {
       method: "POST",
       body: JSON.stringify({ user, password }),
       headers: {
         "Content-Type": "application/json",
       },
     });
-    result = await result.json();
-    if (result.name) {
+    const data = await res.json();
+    if (data.name) {
+      setIsLoading(false);
       //if user is verified then store it in localstorage
-      localStorage.setItem("user", JSON.stringify(result));
+      localStorage.setItem("user", JSON.stringify(data));
+      //toast notifications
+      toast.success("LoggedIn successfully");
       //navigate to ticket
       navigate("/");
     } else {
-      alert("Please enter correct deatils...");
+      setIsLoading(false);
+      toast.error("Please enter correct deatils...");
     }
   };
 
   return (
     <div className="login">
+      <Toaster position="bottom-center" />
       <h1 id="eventName">Technical Tambola</h1>
 
       <h1 id="login">Log In</h1>
@@ -63,7 +70,7 @@ const Login = () => {
 
       {/* try to login user by handlelogin function */}
       <button onClick={handlelogin} className="button" type="button">
-        Login
+        {isLoading ? <>Loading...</> : <>Login</>}
       </button>
     </div>
   );

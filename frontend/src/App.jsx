@@ -6,25 +6,29 @@ import Nav from "./components/Navbar/Navbar";
 import Ticket from "./components/Ticket/Ticket";
 import PrivateRoute from "./components/Navbar/PrivateComponent";
 import Login from "./components/LogIn/Login";
+import QueryProvider from "./lib/query-provider";
 
 export default function App() {
   return (
-    <div className="App">
-      <BrowserRouter>
-        {/* put Navbar on every route */}
-        <Nav />
+    <QueryProvider>
+      <div className="App">
+        <BrowserRouter>
+          <Nav />
 
-        <Routes>
-          {/* routes for Private Components */}
-          <Route element={<PrivateRoute />}>
-            <Route path="/" element={<Ticket />} />
-            <Route path="/logout" element={<h1>Logout component</h1>} />
-          </Route>
+          <Routes>
+            {/* routes for Private Components */}
+            <Route
+            //  element={<PrivateRoute />}
+            >
+              <Route path="/" element={<Ticket />} />
+              <Route path="/logout" element={<h1>Logout component</h1>} />
+            </Route>
 
-          {/* Public Login route */}
-          <Route path="/login" element={<Login />} />
-        </Routes>
-      </BrowserRouter>
-    </div>
+            {/* Public Login route */}
+            <Route path="/login" element={<Login />} />
+          </Routes>
+        </BrowserRouter>
+      </div>
+    </QueryProvider>
   );
 }
