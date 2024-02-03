@@ -5,18 +5,17 @@ import Nav from "./components/Navbar/Navbar";
 import Ticket from "./components/Ticket/Ticket";
 import PrivateRoute from "./components/Navbar/PrivateComponent";
 import Login from "./components/LogIn/Login";
+import Notification from "./components/Notification";
 
 export default function App() {
   const queryClient = new QueryClient({
-    defaultOptions: {
-      queries: {
-        staleTime: Infinity,
-      },
-    },
+    defaultOptions: { queries: { staleTime: 0 } },
   });
+
   return (
-    <div className="App">
-      <QueryClientProvider client={queryClient}>
+    <QueryClientProvider client={queryClient}>
+      <Notification />
+      <div className="App">
         <BrowserRouter>
           <Nav />
 
@@ -31,7 +30,7 @@ export default function App() {
             <Route path="/login" element={<Login />} />
           </Routes>
         </BrowserRouter>
-      </QueryClientProvider>
-    </div>
+      </div>
+    </QueryClientProvider>
   );
 }

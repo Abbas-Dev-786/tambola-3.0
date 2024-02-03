@@ -1,15 +1,18 @@
 import { useState, useEffect } from "react";
-import toast, { Toaster } from "react-hot-toast";
+
+import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import "./Login.css";
 import { useMutation } from "@tanstack/react-query";
+
 import { loginUser } from "../../api";
 import { Loader } from "../spinner";
+import "./Login.css";
 
 //Login component
 const Login = () => {
   const [user, setUser] = useState({ userId: "", password: "" }); //get user id
   const navigate = useNavigate();
+
   useEffect(() => {
     const auth = localStorage.getItem("user");
     if (auth) {
@@ -17,13 +20,20 @@ const Login = () => {
     }
   }, [navigate]);
 
-  const { isPending, mutate, error } = useMutation({
+  const { isPending, mutate } = useMutation({
     mutationFn: (user) => loginUser(user),
+    onSuccess: (data) => {
+      toast.success("Login Succesfull");
+      localStorage.setItem("user", JSON.stringify(data));
+      navigate("/");
+    },
+    onError: (err) => {
+      toast.error(err?.message);
+    },
   });
 
   return (
     <div className="login">
-      <Toaster position="top-right" />
       <h1 id="eventName">Technical Tambola</h1>
 
       <h1 id="login">Log In</h1>
@@ -32,20 +42,7 @@ const Login = () => {
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          mutate(user, {
-            onSuccess: (data) => {
-              if (data?.data?.user) {
-                toast.success("LoggedIn Succesfully");
-                localStorage.setItem("user", JSON.stringify(data?.data));
-                setTimeout(() => {
-                  navigate("/");
-                }, 3000);
-              }
-            },
-            onError: (err) => {
-              toast.error(err?.message);
-            },
-          });
+          mutate(user);
         }}
       >
         <input

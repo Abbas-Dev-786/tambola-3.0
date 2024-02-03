@@ -1,8 +1,8 @@
 import { Link, useNavigate } from "react-router-dom";
 import logo from "./../../images/logo.png";
 import "./Navbar.css";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import toast from "react-hot-toast";
+import { useMutation } from "@tanstack/react-query";
+import { toast } from "react-toastify";
 import { RaiseHand } from "../../api";
 import { useEffect, useState } from "react";
 
@@ -14,18 +14,22 @@ const Nav = () => {
   //clear user data from localstorage and navigate to login page
   const logout = () => {
     localStorage.clear();
-    setTimeout(() => {
-      toast.success("Logging Out ");
-    }, 3000);
+
+    toast.success("Logging Out ");
+
     navigate("/login");
   };
 
   const { mutate } = useMutation({
     mutationFn: async () => RaiseHand(),
+    onSuccess: () => {
+      toast.success("Your Request submitted");
+    },
     onError: (err) => {
       toast.error(err?.message);
     },
   });
+
   useEffect(() => {
     setTimeout(() => {
       setDisable(false);
@@ -53,8 +57,8 @@ const Nav = () => {
             <button
               id="handRaiseButton"
               disabled={disable ? true : false}
-              onClick={(e) => {
-                console.log("raised");
+              onClick={() => {
+                mutate();
               }}
               type="button"
             >
