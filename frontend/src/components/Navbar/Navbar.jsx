@@ -26,7 +26,7 @@ const Nav = () => {
       second: "2-digit",
     }).format(timestamp);
     //get user name
-    var user = JSON.parse(localStorage.getItem("user")).name;
+    var user = JSON.parse(localStorage.getItem("user"))?.user?.name;
 
     //create a form data with current time and name of user data
     var formData = new FormData();
@@ -35,14 +35,16 @@ const Nav = () => {
 
     //URL of google sheets api
     const URL =
-      "https://script.google.com/macros/s/AKfycbwd2P_htjEqgOllrLlaNhp3qkEv6eCJh3RuweXYbxaSuQM57_HO6Sp3FTGZ7pFeDNE/exec";
+      "https://script.google.com/macros/s/AKfycbz6d8p0Y8d8oD5a_84yxu5ldSHHIP2cD4NJhlPdY9P6wRjTmCbhFv3iMFMbcUsamLiL5g/exec";
+    // "https://script.google.com/macros/s/AKfycbx63HLC9_j6JZkDYIY0SmCboGcfJ127Cxicp9eHm_r-1DbWA2_YaWCIc1-h0_0uF3crAg/exec";
 
     // insert data in google sheet
     fetch(URL, {
       method: "POST",
-      body: formData,
+      body: JSON.stringify({ name: "helo" }),
+      mode: "no-cors",
     })
-      .then((res) => res.json())
+      // .then((res) => res.json())
       .then((data) => {
         console.log(data);
       })
@@ -50,7 +52,7 @@ const Nav = () => {
   }
 
   return (
-    <div className="nav">
+    <nav className="nav">
       <img alt={logo} className="logo" src={logo} />
       {auth ? (
         // show options to loged in player only
@@ -83,7 +85,7 @@ const Nav = () => {
           </li>
         </ul>
       )}
-    </div>
+    </nav>
   );
 };
 

@@ -11,14 +11,18 @@ function Ticket() {
     async function fetchTicket() {
       //get array of answers from db
       //   const URL = "https://tambola-backend.vercel.app/ticket";
-      const URL = "http://127.0.0.1:5000/ticket";
+      const URL = "http://127.0.0.1:5000/api/ticket";
+
+      const token = JSON.parse(localStorage.getItem("user")).token;
 
       try {
-        const res = await axios.post(URL, {
-          data: { id: user_id },
+        const res = await axios.get(URL, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         });
         // store answers in getTicket state
-        setGetTicket(res.data["answers"]);
+        setGetTicket(res?.data?.data["answers"]);
       } catch (error) {
         console.log(error);
       }
@@ -48,7 +52,7 @@ function Ticket() {
           {getTicket.map((ticket, i) => (
             <div
               key={i}
-              className={"tambola-ticket-cell "}
+              className={`tambola-ticket-cell ${ticket ? "hover" : ""}`}
               onClick={handleClick}
             >
               <h5>{ticket}</h5>

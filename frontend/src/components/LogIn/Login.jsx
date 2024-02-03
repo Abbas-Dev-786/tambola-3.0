@@ -18,22 +18,24 @@ const Login = () => {
   }, [navigate]);
 
   //function to login user
-  const handlelogin = async () => {
-    let result = await fetch("http://127.0.0.1:5000/login", {
+  const handlelogin = async (e) => {
+    e.preventDefault();
+
+    let result = await fetch("http://127.0.0.1:5000/api/login", {
       method: "POST",
-      body: JSON.stringify({ user, password }),
+      body: JSON.stringify({ userId: user, password }),
       headers: {
         "Content-Type": "application/json",
       },
     });
     result = await result.json();
-    if (result.name) {
+    if (result?.data?.user?.name) {
       //if user is verified then store it in localstorage
-      localStorage.setItem("user", JSON.stringify(result));
+      localStorage.setItem("user", JSON.stringify(result?.data));
       //navigate to ticket
       navigate("/");
     } else {
-      alert("Please enter correct deatils...");
+      alert("Please enter correct details...");
     }
   };
 
@@ -41,30 +43,33 @@ const Login = () => {
     <div className="login">
       <h1 id="eventName">Technical Tambola</h1>
 
-      <h1 id="login">Log In</h1>
-
       {/* take user id and store it in user state */}
-      <input
-        className="inputBox"
-        type="text"
-        value={user}
-        onChange={(e) => setUser(e.target.value)}
-        placeholder="Enter User ID"
-      />
+      <form className="login-form" onSubmit={handlelogin}>
+        <h1 id="login">Log In</h1>
+        <input
+          className="inputBox"
+          type="text"
+          value={user}
+          onChange={(e) => setUser(e.target.value)}
+          placeholder="Enter User ID"
+          required
+        />
 
-      {/* take password and store it in password state */}
-      <input
-        className="inputBox"
-        type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        placeholder="Enter password"
-      />
+        {/* take password and store it in password state */}
+        <input
+          className="inputBox"
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder="Enter password"
+          required
+        />
 
-      {/* try to login user by handlelogin function */}
-      <button onClick={handlelogin} className="button" type="button">
-        Login
-      </button>
+        {/* try to login user by handlelogin function */}
+        <button onClick={handlelogin} className="button" type="submit">
+          Login
+        </button>
+      </form>
     </div>
   );
 };
