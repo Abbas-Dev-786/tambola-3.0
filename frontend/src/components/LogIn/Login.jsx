@@ -40,6 +40,7 @@ const Login = () => {
 
       {/* take user id and store it in user state */}
       <form
+        className="login-form"
         onSubmit={(e) => {
           e.preventDefault();
           mutate(user);

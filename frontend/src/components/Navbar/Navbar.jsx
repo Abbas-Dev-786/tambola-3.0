@@ -37,7 +37,7 @@ const Nav = () => {
   }, [disable]);
 
   return (
-    <div className="nav">
+    <nav className="nav">
       <img alt={logo} className="logo" src={logo} />
       {auth ? (
         // show options to loged in player only
@@ -73,7 +73,7 @@ const Nav = () => {
           </li>
         </ul>
       )}
-    </div>
+    </nav>
   );
 };
 

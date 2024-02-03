@@ -36,7 +36,7 @@ function Ticket() {
           {data?.map((ticket, i) => (
             <div
               key={i}
-              className={"tambola-ticket-cell "}
+              className={`tambola-ticket-cell ${ticket ? "hover" : ""}`}
               onClick={handleClick}
             >
               <h5>{ticket}</h5>
