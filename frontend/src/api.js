@@ -2,7 +2,9 @@ import axios from "axios";
 
 const DEFAULT_ERROR_MESSAGE = "Network Error or Something went wrong.";
 
-export const baseURL = import.meta.env.DEV ? "http://127.0.0.1:5000" : "";
+export const baseURL = import.meta.env.DEV
+  ? "http://127.0.0.1:5000"
+  : "https://average-toad-school-uniform.cyclic.app";
 
 const customRequest = axios.create({ baseURL });
 
