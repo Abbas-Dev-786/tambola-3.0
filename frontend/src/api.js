@@ -8,8 +8,9 @@ export const baseURL = import.meta.env.DEV
 
 const customRequest = axios.create({ baseURL });
 
-const accessToken = JSON.parse(localStorage.getItem("user"))?.token;
 customRequest.interceptors.request.use((config) => {
+  const accessToken = JSON.parse(localStorage.getItem("user"))?.token;
+
   if (accessToken) {
     config.headers["Authorization"] = `Bearer ${accessToken}`;
   }
