@@ -1,15 +1,18 @@
 import { useState, useEffect } from "react";
+
+import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { useMutation } from "@tanstack/react-query";
+
+import { loginUser } from "../../api";
+import { Loader } from "../spinner";
 import "./Login.css";
 
 //Login component
 const Login = () => {
-  const [user, setUser] = useState(""); //get user id
-  const [password, setPassword] = useState(""); //get password
-
+  const [user, setUser] = useState({ userId: "", password: "" }); //get user id
   const navigate = useNavigate();
 
-  //if user is loged In then navigate to ticket or '/' page
   useEffect(() => {
     const auth = localStorage.getItem("user");
     if (auth) {
@@ -17,57 +20,51 @@ const Login = () => {
     }
   }, [navigate]);
 
-  //function to login user
-  const handlelogin = async (e) => {
-    e.preventDefault();
-
-    let result = await fetch("http://127.0.0.1:5000/api/login", {
-      method: "POST",
-      body: JSON.stringify({ userId: user, password }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    result = await result.json();
-    if (result?.data?.user?.name) {
-      //if user is verified then store it in localstorage
-      localStorage.setItem("user", JSON.stringify(result?.data));
-      //navigate to ticket
+  const { isPending, mutate } = useMutation({
+    mutationFn: (user) => loginUser(user),
+    onSuccess: (data) => {
+      toast.success("Login Succesfull");
+      localStorage.setItem("user", JSON.stringify(data));
       navigate("/");
-    } else {
-      alert("Please enter correct details...");
-    }
-  };
+    },
+    onError: (err) => {
+      toast.error(err?.message);
+    },
+  });
 
   return (
     <div className="login">
       <h1 id="eventName">Technical Tambola</h1>
 
+      <h1 id="login">Log In</h1>
+
       {/* take user id and store it in user state */}
-      <form className="login-form" onSubmit={handlelogin}>
-        <h1 id="login">Log In</h1>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          mutate(user);
+        }}
+      >
         <input
           className="inputBox"
           type="text"
-          value={user}
-          onChange={(e) => setUser(e.target.value)}
+          value={user?.userId}
+          onChange={(e) => setUser({ ...user, userId: e.target.value })}
           placeholder="Enter User ID"
-          required
         />
 
         {/* take password and store it in password state */}
         <input
           className="inputBox"
           type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          value={user?.password}
+          onChange={(e) => setUser({ ...user, password: e.target.value })}
           placeholder="Enter password"
-          required
         />
 
         {/* try to login user by handlelogin function */}
-        <button onClick={handlelogin} className="button" type="submit">
-          Login
+        <button className="button" type="submit">
+          {isPending ? <Loader /> : <>Login</>}
         </button>
       </form>
     </div>

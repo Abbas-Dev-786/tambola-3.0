@@ -1,35 +1,11 @@
-import { useState, useEffect } from "react";
-import axios from "axios";
 import "./Ticket.css";
+import { useQuery } from "@tanstack/react-query";
+import { toast } from "react-toastify";
+import { Loader } from "../spinner";
+import { fetchTicket } from "../../api";
 
 function Ticket() {
-  const [getTicket, setGetTicket] = useState([]); //get values for ticket
-  const user_id = JSON.parse(localStorage.getItem("user"))?.id; //get user id
-
-  //get values inside ticket once render to route
-  useEffect(() => {
-    async function fetchTicket() {
-      //get array of answers from db
-      //   const URL = "https://tambola-backend.vercel.app/ticket";
-      const URL = "http://127.0.0.1:5000/api/ticket";
-
-      const token = JSON.parse(localStorage.getItem("user")).token;
-
-      try {
-        const res = await axios.get(URL, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        // store answers in getTicket state
-        setGetTicket(res?.data?.data["answers"]);
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    //function calling
-    fetchTicket();
-  }, [user_id]);
+  // const [animate, setAnimate] = useState(false);
 
   //change the background of block of ticket when clicked
   const handleClick = (event) => {
@@ -38,21 +14,29 @@ function Ticket() {
     }
   };
 
-  //response if ticket is not generated
-  if (getTicket === undefined) return <h3>Ticket not generated...</h3>;
+  const { isLoading, data, error, isError } = useQuery({
+    queryKey: ["tickets"],
+    queryFn: fetchTicket,
+  });
 
-  //response until ticket is fetched
-  if (!getTicket.length) return <h3>Loading...</h3>;
+  if (isError) {
+    toast.error(error?.message);
+  }
 
   return (
     <div>
       <div className="board">
+        {isLoading && (
+          <div style={{ marginTop: "20px" }}>
+            <Loader />
+          </div>
+        )}
         <div className="tambola-ticket">
           {/* display array of answers inside getTicket state */}
-          {getTicket.map((ticket, i) => (
+          {data?.map((ticket, i) => (
             <div
               key={i}
-              className={`tambola-ticket-cell ${ticket ? "hover" : ""}`}
+              className={"tambola-ticket-cell "}
               onClick={handleClick}
             >
               <h5>{ticket}</h5>

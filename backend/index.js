@@ -42,7 +42,7 @@ app.get("/api/answers", getAllAnswers);
 app.get("/api/question", getRandomQuestion);
 app.get("/api/question/all", getAllQuestions);
 app.post("/api/generateTicket", generateTickets);
-app.get("/api/ticket/", protect, getTicket);
+app.get("/api/ticket", protect, getTicket);
 app.get("/api/raiseHand/all", protect, getAllRaiseHands);
 app.post("/api/raiseHand", protect, raiseHand);
 
