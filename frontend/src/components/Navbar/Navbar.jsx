@@ -1,13 +1,12 @@
 import { Link, useNavigate } from "react-router-dom";
 import logo from "./../../images/logo.png";
-
 import "./Navbar.css";
 import { useQuery } from "@tanstack/react-query";
-import { RaiseHand } from "../actions";
 import toast from "react-hot-toast";
+import { RaiseHand } from "../../api";
 
 const Nav = () => {
-  const auth = localStorage.getItem("user"); //get user stored in localstorage
+  const auth = typeof window !== "undefined" && localStorage.getItem("user"); //get user stored in localstorage
   const navigate = useNavigate();
 
   //clear user data from localstorage and navigate to login page
@@ -15,22 +14,6 @@ const Nav = () => {
     localStorage.clear();
     navigate("/login");
   };
-
-  //function to get details of player who raised hand for prize calm
-  const { error, isLoading } = useQuery({
-    queryKey: ["raiseHand"],
-    queryFn: async () => {
-      const resp = await RaiseHand();
-      const data = await resp.json();
-      console.log({ data });
-      if (!resp.ok) {
-        toast.error(data);
-        throw new Error(data);
-      }
-      toast.success("Hand Raised ✋");
-      return data;
-    },
-  });
 
   return (
     <div className="nav">
@@ -44,7 +27,7 @@ const Nav = () => {
           <li>
             <button id="logout">
               <Link onClick={logout} to="/login">
-                Logout ({JSON.parse(auth)?.name})
+                Logout {JSON.parse(auth)?.user?.name}
               </Link>
             </button>
           </li>

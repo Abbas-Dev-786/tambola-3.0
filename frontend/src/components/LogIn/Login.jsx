@@ -3,13 +3,12 @@ import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
 import { useMutation } from "@tanstack/react-query";
-import { handlelogin } from "../../lib/actions";
-import { Loader } from "../../lib/spinner";
+import { loginUser } from "../../api";
+import { Loader } from "../spinner";
 
 //Login component
 const Login = () => {
-  const [user, setUser] = useState(""); //get user id
-  const [password, setPassword] = useState(""); //get password
+  const [user, setUser] = useState({ userId: "", password: "" }); //get user id
   const navigate = useNavigate();
   useEffect(() => {
     const auth = localStorage.getItem("user");
@@ -18,20 +17,9 @@ const Login = () => {
     }
   }, [navigate]);
 
-  const { data, isLoading, mutate } = useMutation({
-    mutationFn: (user, password) => handlelogin(user, password),
-    onSuccess: () => {
-      if (data?.name) {
-        localStorage.setItem("user", JSON.stringify(data));
-        toast.success("LoggedIn Succesfully");
-        navigate("/");
-      }
-    },
-    onError: () => {
-      toast.error("Please enter correct deatils...");
-    },
+  const { isLoading, mutate, data } = useMutation({
+    mutationFn: (user) => loginUser(user),
   });
-  //if user is loged In then navigate to ticket or '/' page
 
   return (
     <div className="login">
@@ -41,31 +29,44 @@ const Login = () => {
       <h1 id="login">Log In</h1>
 
       {/* take user id and store it in user state */}
-      <input
-        className="inputBox"
-        type="text"
-        value={user}
-        onChange={(e) => setUser(e.target.value)}
-        placeholder="Enter User ID"
-      />
-
-      {/* take password and store it in password state */}
-      <input
-        className="inputBox"
-        type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        placeholder="Enter password"
-      />
-
-      {/* try to login user by handlelogin function */}
-      <button
-        onClick={() => mutate(user, password)}
-        className="button"
-        type="button"
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          mutate(user, {
+            onSuccess: (data) => {
+              if (data?.data?.user) {
+                toast.success("LoggedIn Succesfully");
+                localStorage.setItem("user", JSON.stringify(data?.data));
+                setTimeout(() => {
+                  navigate("/");
+                }, 3000);
+              }
+            },
+          });
+        }}
       >
-        {isLoading ? <Loader /> : <>Login</>}
-      </button>
+        <input
+          className="inputBox"
+          type="text"
+          value={user?.userId}
+          onChange={(e) => setUser({ ...user, userId: e.target.value })}
+          placeholder="Enter User ID"
+        />
+
+        {/* take password and store it in password state */}
+        <input
+          className="inputBox"
+          type="password"
+          value={user?.password}
+          onChange={(e) => setUser({ ...user, password: e.target.value })}
+          placeholder="Enter password"
+        />
+
+        {/* try to login user by handlelogin function */}
+        <button className="button" type="submit">
+          {isLoading ? <Loader /> : <>Login</>}
+        </button>
+      </form>
     </div>
   );
 };

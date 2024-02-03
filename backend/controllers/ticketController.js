@@ -6,7 +6,7 @@ const catchAsync = require("../utils/catchAsync");
 
 module.exports.getTicket = catchAsync(async (req, res, next) => {
   let ticket = await Tickets.findOne({ id: req.user.id });
-
+  console.log(ticket, req?.user);
   if (!ticket) {
     return next(new AppError("Ticket does not exists for the user", 404));
   }
