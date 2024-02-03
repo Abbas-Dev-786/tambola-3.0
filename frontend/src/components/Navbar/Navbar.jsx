@@ -3,7 +3,7 @@ import logo from "./../../images/logo.png";
 
 import "./Navbar.css";
 import { useQuery } from "@tanstack/react-query";
-import { RaiseHand } from "../../lib/actions";
+import { RaiseHand } from "../actions";
 import toast from "react-hot-toast";
 
 const Nav = () => {
