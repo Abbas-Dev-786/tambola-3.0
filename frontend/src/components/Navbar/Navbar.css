@@ -1,88 +1,136 @@
-.nav {
-  width: 100vw;
-}
-
 .nav-ul li {
-  display: inline-block;
-  padding: 10px;
+    display: inline-block;
+    padding: 10px;
 }
 
 .nav-ul li a {
-  color: #fff;
-  padding: 5px;
-  text-decoration: none;
+    color: #fff;
+    padding: 5px;
+    text-decoration: none;
 }
 
 .nav-ul {
-  padding: 15px;
-  margin: 0;
-  background-color: #252525;
+    padding: 15px;
+    margin: 0;
+    background-color: #252525;
 }
 
 .nav-right {
-  text-align: right;
+    text-align: right;
 }
 
 .logo {
-  width: 70px;
-  float: left;
-  margin-left: 20px;
-  margin-top: 2px;
+    width: 70px;
+    float: left;
+    margin-left: 20px;
+    margin-top: 2px;
 }
 
 #logout {
-  font-size: 0.8rem;
-  font-weight: 600;
-  background-color: transparent;
-  border-color: #fff;
-  border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 600;
+    background-color: transparent;
+    border: 20px;
+    border-color:  #fff;
+    border-radius: 10px;
+    margin-left: 550px;
+}
+
+#logout:active {
+    background-image: linear-gradient(to bottom, rgba(255, 255, 255, .1), rgba(255, 255, 255, 0));
+    box-shadow: inset 0 3px 4px rgba(255, 255, 255, .1);
+    transform: translateY(2px);
+}
+
+#logout:hover {
+    cursor: pointer;
+    background-color: #81b29a;
+    animation: pop 0.3s ease;
 }
 
 #handRaiseButton {
-  border: none;
-  border-radius: 20px;
-  font-size: 1.3rem;
-  margin-top: -5px;
+    border: none;
+    background-color: transparent;
+    border-radius: 20px;
+    font-size: 1.1rem;
+    color: #fff;
+    font-weight: 600;
+    margin-top: 0.5px;
+}
+
+#handRaiseButton:hover {
+    cursor: pointer;
+    background-color: #81b29a;
+    animation: pop 0.3s ease;
 }
 
 #handRaise {
-  padding: -10px;
+    padding: -10px;
 }
 
 #handRaiseButton:active {
-  transform: translateY(2px);
+    background-image: linear-gradient(to bottom, rgba(255, 255, 255, .1), rgba(255, 255, 255, 0));
+    box-shadow: inset 0 3px 4px rgba(255, 255, 255, .1);
+    transform: translateY(2px);
 }
 
-@media only screen and (max-width: 786px) {
-  .logo {
-    margin-top: 10px;
-  }
+@keyframes pop {
+    0% {
+        transform: scale(1);
+    }
 
-  .nav-ul {
-    padding: 26px;
-  }
+    50% {
+        transform: scale(1.2);
+    }
 
-  .login {
-    margin-left: 3%;
-  }
-
-  #handRaiseButton {
-    width: 10.813rem;
-    cursor: pointer;
-  }
+    100% {
+        transform: scale(1);
+    }
 }
 
-@media only screen and (min-width: 786px) {
-  .nav-ul {
-    padding: 18px;
-  }
 
-  #handRaise {
-    float: right;
-  }
+@media (max-width: 575.98px) {
+    .logo {
+        margin-top: 10px;
+    }
 
-  #handRaiseButton {
-    width: 10.813rem;
-    margin-left: 5rem;
-  }
+    .nav-ul {
+        padding: 26px;
+    }
+
+    #handRaiseButton {
+        width: 100%; /* Full width on small screens */
+        cursor: pointer;
+        margin-top: 10px;
+    }
+
+    #handRaiseButton:hover {
+        background-color: #81b29a;
+        animation: pop 0.3s ease;
+    }
 }
+
+
+@media (max-width: 767.98px) {
+    .nav-ul {
+        padding: 18px;
+    }
+
+    #handRaise {
+        float: right;
+    }
+
+    #handRaiseButton {
+        width: 100%; 
+        margin-left: 0;
+        margin-top: 10px;
+    }
+}
+
+@media (max-width: 991.98px) {
+    #handRaiseButton {
+        width: 100%;
+        margin-top: 10px;
+    }
+}
+
