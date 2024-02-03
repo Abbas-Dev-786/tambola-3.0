@@ -1,31 +1,27 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import "./Ticket.css";
+import { useQuery } from "@tanstack/react-query";
+import { fetchTicket } from "../../lib/actions";
+import toast, { Toaster } from "react-hot-toast";
+import { Loader } from "../../lib/spinner";
 
 function Ticket() {
   const [getTicket, setGetTicket] = useState([]); //get values for ticket
   const user_id = JSON.parse(localStorage.getItem("user"))?.id; //get user id
-
-  //get values inside ticket once render to route
-  useEffect(() => {
-    async function fetchTicket() {
-      //get array of answers from db
-      //   const URL = "https://tambola-backend.vercel.app/ticket";
-      const URL = "http://127.0.0.1:5000/ticket";
-
-      try {
-        const res = await axios.post(URL, {
-          data: { id: user_id },
-        });
-        // store answers in getTicket state
-        setGetTicket(res.data["answers"]);
-      } catch (error) {
-        console.log(error);
+  const { error, isLoading } = useQuery({
+    queryKey: ["ticket", user_id],
+    queryFn: async () => {
+      const res = await fetchTicket(user_id);
+      const data = await res.json();
+      if (!res?.ok) {
+        toast.error(data);
+        throw new Error(data);
       }
-    }
-    //function calling
-    fetchTicket();
-  }, [user_id]);
+      setGetTicket(data?.ticket);
+      return data;
+    },
+  });
 
   //change the background of block of ticket when clicked
   const handleClick = (event) => {
@@ -35,17 +31,19 @@ function Ticket() {
   };
 
   //response if ticket is not generated
-  if (getTicket === undefined) return <h3>Ticket not generated...</h3>;
+  if (!getTicket) return <h3>Ticket not generated...</h3>;
+  if (error) return <h3>{error}</h3>;
 
   //response until ticket is fetched
-  if (!getTicket.length) return <h3>Loading...</h3>;
+  if (isLoading) return <Loader />;
 
   return (
     <div>
       <div className="board">
+        <Toaster position="bottom-center" />
         <div className="tambola-ticket">
           {/* display array of answers inside getTicket state */}
-          {getTicket.map((ticket, i) => (
+          {getTicket?.map((ticket, i) => (
             <div
               key={i}
               className={"tambola-ticket-cell "}

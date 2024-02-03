@@ -2,15 +2,15 @@ import { useState, useEffect } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
+import { useMutation } from "@tanstack/react-query";
+import { handlelogin } from "../../lib/actions";
+import { Loader } from "../../lib/spinner";
 
 //Login component
 const Login = () => {
   const [user, setUser] = useState(""); //get user id
   const [password, setPassword] = useState(""); //get password
-  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-
-  //if user is loged In then navigate to ticket or '/' page
   useEffect(() => {
     const auth = localStorage.getItem("user");
     if (auth) {
@@ -18,34 +18,24 @@ const Login = () => {
     }
   }, [navigate]);
 
-  //function to login user
-  const handlelogin = async () => {
-    setIsLoading(true);
-    const res = await fetch("http://127.0.0.1:5000/login", {
-      method: "POST",
-      body: JSON.stringify({ user, password }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const data = await res.json();
-    if (data.name) {
-      setIsLoading(false);
-      //if user is verified then store it in localstorage
-      localStorage.setItem("user", JSON.stringify(data));
-      //toast notifications
-      toast.success("LoggedIn successfully");
-      //navigate to ticket
-      navigate("/");
-    } else {
-      setIsLoading(false);
+  const { data, isLoading, mutate } = useMutation({
+    mutationFn: (user, password) => handlelogin(user, password),
+    onSuccess: () => {
+      if (data?.name) {
+        localStorage.setItem("user", JSON.stringify(data));
+        toast.success("LoggedIn Succesfully");
+        navigate("/");
+      }
+    },
+    onError: () => {
       toast.error("Please enter correct deatils...");
-    }
-  };
+    },
+  });
+  //if user is loged In then navigate to ticket or '/' page
 
   return (
     <div className="login">
-      <Toaster position="bottom-center" />
+      <Toaster position="top-right" />
       <h1 id="eventName">Technical Tambola</h1>
 
       <h1 id="login">Log In</h1>
@@ -69,8 +59,12 @@ const Login = () => {
       />
 
       {/* try to login user by handlelogin function */}
-      <button onClick={handlelogin} className="button" type="button">
-        {isLoading ? <>Loading...</> : <>Login</>}
+      <button
+        onClick={() => mutate(user, password)}
+        className="button"
+        type="button"
+      >
+        {isLoading ? <Loader /> : <>Login</>}
       </button>
     </div>
   );

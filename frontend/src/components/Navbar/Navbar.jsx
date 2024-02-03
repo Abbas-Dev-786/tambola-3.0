@@ -2,6 +2,9 @@ import { Link, useNavigate } from "react-router-dom";
 import logo from "./../../images/logo.png";
 
 import "./Navbar.css";
+import { useQuery } from "@tanstack/react-query";
+import { RaiseHand } from "../../lib/actions";
+import toast from "react-hot-toast";
 
 const Nav = () => {
   const auth = localStorage.getItem("user"); //get user stored in localstorage
@@ -14,40 +17,20 @@ const Nav = () => {
   };
 
   //function to get details of player who raised hand for prize calm
-  function RaiseHand() {
-    //get current time
-    var timestamp = Date.now();
-    timestamp = new Intl.DateTimeFormat("en-US", {
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-      hour: "2-digit",
-      minute: "2-digit",
-      second: "2-digit",
-    }).format(timestamp);
-    //get user name
-    var user = JSON.parse(localStorage.getItem("user")).name;
-
-    //create a form data with current time and name of user data
-    var formData = new FormData();
-    formData.append("Timestamp", timestamp);
-    formData.append("Name", user);
-
-    //URL of google sheets api
-    const URL =
-      "https://script.google.com/macros/s/AKfycbwd2P_htjEqgOllrLlaNhp3qkEv6eCJh3RuweXYbxaSuQM57_HO6Sp3FTGZ7pFeDNE/exec";
-
-    // insert data in google sheet
-    fetch(URL, {
-      method: "POST",
-      body: formData,
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-      })
-      .catch((error) => console.log(error));
-  }
+  const { error, isLoading } = useQuery({
+    queryKey: ["raiseHand"],
+    queryFn: async () => {
+      const resp = await RaiseHand();
+      const data = await resp.json();
+      console.log({ data });
+      if (!resp.ok) {
+        toast.error(data);
+        throw new Error(data);
+      }
+      toast.success("Hand Raised ✋");
+      return data;
+    },
+  });
 
   return (
     <div className="nav">
