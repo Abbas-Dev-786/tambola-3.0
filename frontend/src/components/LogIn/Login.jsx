@@ -36,8 +36,6 @@ const Login = () => {
     <div className="login">
       <h1 id="eventName">Technical Tambola</h1>
 
-      <h1 id="login">Log In</h1>
-
       {/* take user id and store it in user state */}
       <form
         className="login-form"
@@ -46,6 +44,7 @@ const Login = () => {
           mutate(user);
         }}
       >
+        <h1 id="login">Log In</h1>
         <input
           className="inputBox"
           type="text"
