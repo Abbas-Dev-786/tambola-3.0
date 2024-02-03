@@ -39,9 +39,11 @@ const Login = () => {
 
   return (
     <div className="login">
+      <h3 id="welcome">Welcome to</h3>
       <h1 id="eventName">Technical Tambola</h1>
+      {/* <h3 id="sponsered">Conducted by MUACM</h3> */}
 
-      <h1 id="login">Log In</h1>
+      {/* <h1 id="login">Log In</h1> */}
 
       {/* take user id and store it in user state */}
       <input

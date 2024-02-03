@@ -70,7 +70,7 @@ const Nav = () => {
             onClick={(e) => RaiseHand(e)}
             type="button"
           >
-            ✋
+            Raise Hand✋
           </button>
         </li>
       </ul>
