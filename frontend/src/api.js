@@ -6,11 +6,10 @@ export const baseURL = import.meta.env.DEV ? "http://127.0.0.1:5000" : "";
 
 const customRequest = axios.create({ baseURL });
 
+const accessToken = JSON.parse(localStorage.getItem("user"))?.token;
 customRequest.interceptors.request.use((config) => {
-  const accessToken = JSON.parse(localStorage.getItem("user"))?.token;
-  console.log(accessToken);
   if (accessToken) {
-    config.headers["Authorization"] = accessToken;
+    config.headers["Authorization"] = `Bearer ${accessToken}`;
   }
 
   return config;
@@ -19,7 +18,7 @@ customRequest.interceptors.request.use((config) => {
 export const loginUser = async (data) => {
   try {
     const res = await customRequest.post(`/api/login`, data);
-    return res.data;
+    return res;
   } catch (err) {
     const message = err?.response?.data?.message || DEFAULT_ERROR_MESSAGE;
     throw Error(message);
@@ -28,7 +27,8 @@ export const loginUser = async (data) => {
 
 export async function fetchTicket() {
   try {
-    const res = await axios.get(`/api/ticket`);
+    const res = await customRequest.get(`/api/ticket`);
+
     return res.data;
   } catch (err) {
     const message = err?.response?.data?.message || DEFAULT_ERROR_MESSAGE;
@@ -48,7 +48,7 @@ export async function RaiseHand() {
     second: "2-digit",
   }).format(timestamp);
   //get user name
-  var user = JSON.parse(localStorage.getItem("user")).name;
+  var user = JSON.parse(localStorage.getItem("user"))?.user?.name;
 
   //create a form data with current time and name of user data
   var formData = new FormData();
@@ -60,9 +60,8 @@ export async function RaiseHand() {
     "https://script.google.com/macros/s/AKfycbwd2P_htjEqgOllrLlaNhp3qkEv6eCJh3RuweXYbxaSuQM57_HO6Sp3FTGZ7pFeDNE/exec";
 
   // insert data in google sheet
-  const res = await fetch("", {
-    method: "POST",
-    body: formData,
-  });
+  const res = await axios.post(URL);
+  console.log(res);
+
   return res;
 }

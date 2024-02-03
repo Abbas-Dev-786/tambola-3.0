@@ -17,7 +17,7 @@ const Login = () => {
     }
   }, [navigate]);
 
-  const { isLoading, mutate, data } = useMutation({
+  const { isPending, mutate, error } = useMutation({
     mutationFn: (user) => loginUser(user),
   });
 
@@ -42,6 +42,9 @@ const Login = () => {
                 }, 3000);
               }
             },
+            onError: (err) => {
+              toast.error(err?.message);
+            },
           });
         }}
       >
@@ -64,7 +67,7 @@ const Login = () => {
 
         {/* try to login user by handlelogin function */}
         <button className="button" type="submit">
-          {isLoading ? <Loader /> : <>Login</>}
+          {isPending ? <Loader /> : <>Login</>}
         </button>
       </form>
     </div>

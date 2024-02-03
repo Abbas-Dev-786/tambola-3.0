@@ -5,8 +5,8 @@ const AppError = require("../utils/AppError");
 
 const signToken = (id) =>
   // returns a signed jwt
-  jwt.sign({ id }, process?.env?.JWT_SECRET || "ajodejejd38u9jjoi", {
-    expiresIn: process?.env?.JWT_EXPIRES_IN || 60 * 100,
+  jwt.sign({ id }, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_EXPIRES_IN,
   });
 
 const createAndSendToken = (res, user) => {
@@ -15,19 +15,26 @@ const createAndSendToken = (res, user) => {
 
   user.password = undefined;
   user.updatedAt = undefined;
-  console.log(token);
 
   res.status(200).json({ status: "success", data: { user, token } });
 };
 
 module.exports.login = catchAsync(async (req, res, next) => {
   const { userId, password } = req.body;
+
   // validation checks
   if (!userId || !password) {
     return next(new AppError("userId and password are required", 400));
   }
 
   const user = await User.findOne({ user: userId }).select("+password");
+
+  // check password
+  //   if (!user || !(await user.comparePasswords(password, user.password))) {
+  //     return next(
+  //       new AppError("Invalid credentials. Please check userID or password", 400)
+  //     );
+  //   }
 
   if (!user || user.password != password) {
     return next(

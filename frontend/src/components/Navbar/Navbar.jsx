@@ -1,19 +1,36 @@
 import { Link, useNavigate } from "react-router-dom";
 import logo from "./../../images/logo.png";
 import "./Navbar.css";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { RaiseHand } from "../../api";
+import { useEffect, useState } from "react";
 
 const Nav = () => {
   const auth = typeof window !== "undefined" && localStorage.getItem("user"); //get user stored in localstorage
   const navigate = useNavigate();
+  const [disable, setDisable] = useState(false);
 
   //clear user data from localstorage and navigate to login page
   const logout = () => {
     localStorage.clear();
+    setTimeout(() => {
+      toast.success("Logging Out ");
+    }, 3000);
     navigate("/login");
   };
+
+  const { mutate } = useMutation({
+    mutationFn: async () => RaiseHand(),
+    onError: (err) => {
+      toast.error(err?.message);
+    },
+  });
+  useEffect(() => {
+    setTimeout(() => {
+      setDisable(false);
+    }, 10000);
+  }, [disable]);
 
   return (
     <div className="nav">
@@ -35,7 +52,10 @@ const Nav = () => {
             {/* get user name and time when someone calm for prize by clicking on button  */}
             <button
               id="handRaiseButton"
-              onClick={(e) => RaiseHand(e)}
+              disabled={disable ? true : false}
+              onClick={(e) => {
+                console.log("raised");
+              }}
               type="button"
             >
               ✋
