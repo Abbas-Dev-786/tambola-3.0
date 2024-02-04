@@ -5,4 +5,6 @@ const raiseHandSchema = new mongoose.Schema({
   type: String,
 });
 
+raiseHandSchema.index({ name: 1, type: 1 }, { unique: true });
+
 module.exports = mongoose.model("hands", raiseHandSchema);

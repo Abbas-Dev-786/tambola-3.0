@@ -44,10 +44,8 @@ const handleValidationError = (err) => {
 
 // duplicate unique field DB error handler
 const handleDuplicateFieldError = (err) => {
-  console.log(err.errmsg);
-  const value = err.errmsg.match(/(["'])(\\?.)*?\1/)?.[0];
-
-  const message = `Duplicate field value: ${value}. Please use another value!`;
+  // const value = err.errmsg.match(/(["'])(\\?.)*?\1/)?.[0];
+  const message = `Entry is Already stored`;
   return new AppError(message, 400);
 };
 
