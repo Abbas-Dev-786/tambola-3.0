@@ -1,24 +1,20 @@
 .tambola-ticket {
   display: grid;
-  grid-template-columns: repeat(9, 36px [col-start]);
-  grid-template-rows: repeat(3, 36px [col-start]);
-  column-gap: 2px;
-  row-gap: 2px;
-  margin-left: 2rem;
-  margin-right: 2rem;
+  grid-template-columns: repeat(9, 10vw [col-start]);
+  grid-template-rows: repeat(3, 5vw [col-start]);
+  column-gap: 1vw;
+  row-gap: 1vw;
+  margin: 2rem;
   position: absolute;
   top: 50%;
-  -ms-transform: translateY(-50%);
   transform: translateY(-50%);
-  margin-left: 2rem;
-  margin-right: 2rem;
   background: rgba(255, 255, 255, 0.89);
-  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-  backdrop-filter: blur(40px);
-  -webkit-backdrop-filter: blur(40px);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.2);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
   border-radius: 10px;
   border: 1px solid rgba(255, 255, 255, 0.18);
-  padding: 10px;
+  padding: 2vw;
 }
 
 .tambola-ticket-cell {
@@ -28,21 +24,23 @@
   justify-content: center;
   align-items: center;
   text-align: center;
-  font-size: 1rem;
+  font-size: 1.5vw;
   font-weight: bold;
   color: #555;
   cursor: pointer;
+}
+
+.tambola-ticket-cell p {
+  margin: 0;
+  font-size: 0.8em;
 }
 
 .board {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: calc(100vh -80px);
-  background-color: #7ec1eb;
-  background-image: linear-gradient(-135deg, #5072a7 29%, #bfe7e5 99%);
-  background-size: 400% 400%;
-  animation: gradient 15s ease infinite;
+  height: calc(100vh - 80px);
+  background-color: #ffffff;
 }
 
 .striked {
@@ -56,19 +54,33 @@
 
 @media only screen and (max-width: 786px) {
   .tambola-ticket-cell {
-    font-size: 0.4rem;
+    font-size: 2vw;
+  }
+
+  .tambola-ticket-cell p {
+    font-size: 0.6em;
   }
 }
 
 @media only screen and (min-width: 786px) {
   .tambola-ticket {
-    grid-template-columns: repeat(9, 120px [col-start]);
-    grid-template-rows: repeat(3, 60px [col-start]);
-    column-gap: 5px;
-    row-gap: 5px;
+    grid-template-columns: repeat(9, 10vw [col-start]);
+    grid-template-rows: repeat(3, 5vw [col-start]);
+    column-gap: 1vw;
+    row-gap: 1vw;
     margin-top: 2rem;
+    padding: 1vw;
+  }
+
+  .tambola-ticket-cell {
+    font-size: 1vw;
+  }
+
+  .tambola-ticket-cell p {
+    font-size: 0.8em;
   }
 }
+
 @keyframes gradient {
   0% {
     background-position: 0% 50%;
