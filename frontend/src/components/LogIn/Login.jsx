@@ -33,40 +33,52 @@ const Login = () => {
   });
 
   return (
-    <div className="login">
-      <h1 id="eventName">Technical Tambola</h1>
+    <div
+      className="row d-flex align-items-center justify-content-center "
+      style={{ height: "calc(100vh - 80px)" }}
+    >
+      <div className="col-12 col-md-8 col-lg-3">
+        <div className="card shadow-lg p-3 mb-5 bg-body-tertiary rounded m-4 login p-4">
+          <h1 id="eventName">Technical Tambola</h1>
 
-      {/* take user id and store it in user state */}
-      <form
-        className="login-form"
-        onSubmit={(e) => {
-          e.preventDefault();
-          mutate(user);
-        }}
-      >
-        <h1 id="login">Log In</h1>
-        <input
-          className="inputBox"
-          type="text"
-          value={user?.userId}
-          onChange={(e) => setUser({ ...user, userId: e.target.value })}
-          placeholder="Enter User ID"
-        />
+          <form
+            className="login-form"
+            onSubmit={(e) => {
+              e.preventDefault();
+              mutate(user);
+            }}
+          >
+            <h4 id="login" className="text-center mt-1">
+              Log In
+            </h4>
+            <input
+              className="form-control form-control-lg mt-3"
+              type="text"
+              value={user?.userId}
+              onChange={(e) => setUser({ ...user, userId: e.target.value })}
+              placeholder="Enter User ID"
+              required
+            />
 
-        {/* take password and store it in password state */}
-        <input
-          className="inputBox"
-          type="password"
-          value={user?.password}
-          onChange={(e) => setUser({ ...user, password: e.target.value })}
-          placeholder="Enter password"
-        />
+            {/* take password and store it in password state */}
+            <input
+              className="form-control form-control-lg  mt-3"
+              type="password"
+              value={user?.password}
+              onChange={(e) => setUser({ ...user, password: e.target.value })}
+              placeholder="Enter password"
+              required
+            />
 
-        {/* try to login user by handlelogin function */}
-        <button className="button" type="submit">
-          {isPending ? <Loader /> : <>Login</>}
-        </button>
-      </form>
+            {/* try to login user by handlelogin function */}
+            <div className="d-grid">
+              <button className="btn btn-primary btn-block mt-4" type="submit">
+                {isPending ? <Loader /> : <>Login</>}
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
   );
 };

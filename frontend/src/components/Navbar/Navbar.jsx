@@ -1,9 +1,9 @@
 import { Link, useNavigate } from "react-router-dom";
 import logo from "./../../images/logo.png";
 import "./Navbar.css";
-import { useMutation } from "@tanstack/react-query";
+// import { useMutation } from "@tanstack/react-query";
 import { toast } from "react-toastify";
-import { RaiseHand } from "../../api";
+// import { RaiseHand } from "../../api";
 import { useEffect, useState } from "react";
 
 const Nav = () => {
@@ -20,15 +20,15 @@ const Nav = () => {
     navigate("/login");
   };
 
-  const { mutate } = useMutation({
-    mutationFn: async () => RaiseHand(),
-    onSuccess: () => {
-      toast.success("Your Request submitted");
-    },
-    onError: (err) => {
-      toast.error(err?.message);
-    },
-  });
+  // const { mutate } = useMutation({
+  //   mutationFn: async () => RaiseHand(),
+  //   onSuccess: () => {
+  //     toast.success("Your Request submitted");
+  //   },
+  //   onError: (err) => {
+  //     toast.error(err?.message);
+  //   },
+  // });
 
   useEffect(() => {
     setTimeout(() => {
@@ -37,42 +37,46 @@ const Nav = () => {
   }, [disable]);
 
   return (
-    <nav className="nav">
-      <img alt={logo} className="logo" src={logo} />
-      {auth ? (
-        // show options to loged in player only
-        <ul className="nav-ul">
-          <li id="eventHead">
-            <Link to="/">Technical Tambola MUACM</Link>
-          </li>
-          <li>
-            <button id="logout">
-              <Link onClick={logout} to="/login">
-                Logout {JSON.parse(auth)?.user?.name}
-              </Link>
-            </button>
-          </li>
-          <li id="handRaise">
-            {/* get user name and time when someone calm for prize by clicking on button  */}
-            <button
-              id="handRaiseButton"
-              disabled={disable ? true : false}
-              onClick={() => {
-                mutate();
-              }}
-              type="button"
-            >
-              ✋
-            </button>
-          </li>
-        </ul>
-      ) : (
-        <ul className="nav-ul nav-right">
-          <li>
-            <a href="https://medicaps.acm.org/index/">MUACM</a>
-          </li>
-        </ul>
-      )}
+    <nav className="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
+      <div className="container">
+        <div className="navbar-brand d-flex align-items-center justify-content-center gap-1">
+          <img alt={logo} className="logo" src={logo} />
+        </div>
+        <button
+          className="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span className="navbar-toggler-icon"></span>
+        </button>
+        <div className="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
+            <li className="nav-item"></li>
+            {auth && (
+              <li className="nav-item">
+                <Link onClick={logout} to="/login" className="nav-link active">
+                  Logout {JSON.parse(auth)?.user?.name}
+                </Link>
+              </li>
+            )}
+
+            {!auth && (
+              <li className="nav-item">
+                <a
+                  className="nav-link active"
+                  href="https://medicaps.acm.org/index/"
+                >
+                  MUACM
+                </a>
+              </li>
+            )}
+          </ul>
+        </div>
+      </div>
     </nav>
   );
 };

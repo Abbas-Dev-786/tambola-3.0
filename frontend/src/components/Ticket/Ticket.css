@@ -38,7 +38,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 95vh;
+  height: calc(100vh -80px);
   background-color: #7ec1eb;
   background-image: linear-gradient(-135deg, #5072a7 29%, #bfe7e5 99%);
   background-size: 400% 400%;

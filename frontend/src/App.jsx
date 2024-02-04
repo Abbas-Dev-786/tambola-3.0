@@ -7,15 +7,19 @@ import PrivateRoute from "./components/Navbar/PrivateComponent";
 import Login from "./components/LogIn/Login";
 import Notification from "./components/Notification";
 
+import "bootstrap/scss/bootstrap.scss";
+//eslint-disable-next-line
+import * as bootstrap from "bootstrap";
+
 export default function App() {
   const queryClient = new QueryClient({
     defaultOptions: { queries: { staleTime: 0 } },
   });
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <Notification />
-      <div className="App">
+    <div className="container-fluid m-0 p-0">
+      <QueryClientProvider client={queryClient}>
+        <Notification />
         <BrowserRouter>
           <Nav />
 
@@ -30,7 +34,7 @@ export default function App() {
             <Route path="/login" element={<Login />} />
           </Routes>
         </BrowserRouter>
-      </div>
-    </QueryClientProvider>
+      </QueryClientProvider>
+    </div>
   );
 }
