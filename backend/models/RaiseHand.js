@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
 
 const raiseHandSchema = new mongoose.Schema({
-  name: String,
-  type: String,
+  name: { type: String, required: [true, "User name should be there"] },
+  type: { type: String, required: [true, "scheme type should be there"] },
 });
 
 raiseHandSchema.index({ name: 1, type: 1 }, { unique: true });

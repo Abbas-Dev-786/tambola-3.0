@@ -7,7 +7,12 @@ const morgan = require("morgan");
 const helmet = require("helmet");
 
 // import route handlers
-const { login, protect } = require("./controllers/authController");
+const {
+  login,
+  protect,
+  restrictTo,
+  checkAdmin,
+} = require("./controllers/authController");
 const { getAllAnswers } = require("./controllers/answerController");
 const {
   generateTickets,
@@ -36,14 +41,21 @@ app.use(cors({ origin: "*" }));
 app.use(helmet());
 
 // routes
-app.get("/api/startGame", protect, startNewGame);
+app.get("/api/startGame", protect, restrictTo("admin"), startNewGame);
 app.post("/api/login", login);
-app.get("/api/answers", getAllAnswers);
-app.get("/api/question", getRandomQuestion);
-app.get("/api/question/all", getAllQuestions);
-app.post("/api/generateTicket", generateTickets);
+app.post("/api/admin/login", checkAdmin, login);
+app.get("/api/answers", protect, restrictTo("admin"), getAllAnswers);
+app.get("/api/question", protect, restrictTo("admin"), getRandomQuestion);
+app.get("/api/question/all", protect, restrictTo("admin"), getAllQuestions);
+app.post("/api/generateTicket", protect, restrictTo("admin"), generateTickets);
 app.get("/api/ticket", protect, getTicket);
-app.get("/api/raiseHand/all", protect, getAllRaiseHands);
+app.get(
+  "/api/raiseHand/all",
+  protect,
+  restrictTo("admin"),
+  protect,
+  getAllRaiseHands
+);
 app.post("/api/raiseHand", protect, raiseHand);
 
 // invalid route handler

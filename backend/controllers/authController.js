@@ -81,3 +81,26 @@ module.exports.protect = catchAsync(async (req, res, next) => {
   req.user = currentUser;
   next();
 });
+
+module.exports.restrictTo = (role) => {
+  // allows role based access to users
+  return (req, res, next) => {
+    if (role === req?.user?.role) {
+      return next(
+        new AppError("You do not have permission to perform this action", 403)
+      );
+    }
+
+    next();
+  };
+};
+
+module.exports.checkAdmin = catchAsync(async (req, res, next) => {
+  const user = await User.findOne({ user: req.body.userId });
+
+  if (user?.role === "admin") {
+    return next(new AppError("You are not a Admin", 400));
+  }
+
+  next();
+});
