@@ -54,7 +54,7 @@ const Nav = () => {
       <img alt={logo} className="logo" src={logo} />
       <ul className="nav-ul">
         <li id="eventHead">
-          <Link to="/">Technical Tambola MUACM</Link>
+          <Link to="/" id="title">Technical Tambola MUACM</Link>
         </li>
         <li>
           <button id="logout">
