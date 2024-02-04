@@ -10,7 +10,7 @@ const ButtonContainer = ({ data }) => {
   const [isFirstRow, setIsFirstRow] = useState(false);
   const [isSecondRow, setIsSecondRow] = useState(false);
   const [isThirdRow, setIsThirdRow] = useState(false);
-  // const [isCorner, setIsCorner] = useState(false);
+  const [isCorner, setIsCorner] = useState(false);
   const [isFullGrid, setIsFullGrid] = useState(false);
 
   const [isFirstFiveClicked, setIsFirstFiveClicked] = useState(false);
@@ -42,6 +42,17 @@ const ButtonContainer = ({ data }) => {
     const secondRow = getRow(data, 1);
     const thirdRow = getRow(data, 2);
 
+    const firstCorner = firstRow?.filter((el) => el.key != null)?.[0];
+    const secondCorner = firstRow
+      ?.slice()
+      ?.reverse()
+      ?.filter((el) => el.key != null)?.[0];
+    const thirdCorner = thirdRow?.filter((el) => el.key != null)?.[0];
+    const fourthCorner = thirdRow
+      ?.slice()
+      ?.reverse()
+      ?.filter((el) => el.key != null)?.[0];
+
     if (firstRow?.filter((el) => el.key != null)?.every((el) => el.isChecked)) {
       setIsFirstRow(true);
     }
@@ -65,6 +76,11 @@ const ButtonContainer = ({ data }) => {
       data?.filter((el) => el.key != null)?.every((el) => el.isChecked)
     ) {
       setIsFullGrid(true);
+    }
+
+    const corners = [firstCorner, secondCorner, thirdCorner, fourthCorner];
+    if (corners?.every((el) => el?.isChecked)) {
+      setIsCorner(true);
     }
   }, [data]);
 
@@ -110,7 +126,7 @@ const ButtonContainer = ({ data }) => {
         <button
           className="btn btn-outline-secondary"
           onClick={() => mutate({ type: "corner" })}
-          disabled={isCornerClicked}
+          disabled={!isCorner && !isCornerClicked}
         >
           Corner
         </button>
