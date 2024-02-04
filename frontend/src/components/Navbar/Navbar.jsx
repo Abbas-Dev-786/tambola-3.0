@@ -3,7 +3,6 @@ import logo from "./../../images/logo.png";
 import "./Navbar.css";
 // import { useMutation } from "@tanstack/react-query";
 import { toast } from "react-toastify";
-// import { RaiseHand } from "../../api";
 import { useEffect, useState } from "react";
 
 const Nav = () => {
@@ -19,16 +18,6 @@ const Nav = () => {
 
     navigate("/login");
   };
-
-  // const { mutate } = useMutation({
-  //   mutationFn: async () => RaiseHand(),
-  //   onSuccess: () => {
-  //     toast.success("Your Request submitted");
-  //   },
-  //   onError: (err) => {
-  //     toast.error(err?.message);
-  //   },
-  // });
 
   useEffect(() => {
     setTimeout(() => {

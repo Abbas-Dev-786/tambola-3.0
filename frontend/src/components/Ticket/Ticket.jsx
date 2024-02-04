@@ -3,16 +3,19 @@ import { useQuery } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { Loader } from "../spinner";
 import { fetchTicket } from "../../api";
+import ButtonContainer from "./ButtonContainer";
+import { convertArrayToObject } from "../../utils/arrayToObj";
+import { useEffect, useState } from "react";
 
 function Ticket() {
-  // const [animate, setAnimate] = useState(false);
+  const [ticketData, setTicketData] = useState(false);
 
   //change the background of block of ticket when clicked
-  const handleClick = (event) => {
-    if (event.currentTarget.textContent) {
-      event.currentTarget.classList.add("striked");
-    }
-  };
+  // const handleClick = (event) => {
+  //   if (event.currentTarget.textContent) {
+  //     event.currentTarget.classList.add("striked");
+  //   }
+  // };
 
   const { isLoading, data, error, isError } = useQuery({
     queryKey: ["tickets"],
@@ -23,25 +26,43 @@ function Ticket() {
     toast.error(error?.message);
   }
 
+  useEffect(() => {
+    setTicketData(data ? convertArrayToObject(data) : data);
+  }, [data]);
+
   return (
-    <div>
-      <div className="board">
-        {isLoading && (
-          <div style={{ marginTop: "20px" }}>
-            <Loader />
+    <div className="container">
+      <ButtonContainer data={ticketData ? ticketData : []} />
+      <div className="row">
+        <div className="board">
+          <div className="tambola-ticket">
+            {isLoading && (
+              <div className="d-flex align-items-center justify-content-center">
+                <Loader />
+              </div>
+            )}
+            {/* display array of answers inside getTicket state */}
+            {ticketData &&
+              ticketData?.map((ticket, i) => (
+                <div
+                  key={`ticket-${i}`}
+                  className={`tambola-ticket-cell ${
+                    ticket.key ? "hover" : ""
+                  } ${ticket.isChecked ? "striked" : ""}`}
+                  onClick={() => {
+                    setTicketData((prevObjects) =>
+                      prevObjects.map((prevObj) =>
+                        prevObj?.key === ticket?.key
+                          ? { ...prevObj, isChecked: !prevObj.isChecked }
+                          : prevObj
+                      )
+                    );
+                  }}
+                >
+                  <h5 className="text-wrap">{ticket.key}</h5>
+                </div>
+              ))}
           </div>
-        )}
-        <div className="tambola-ticket">
-          {/* display array of answers inside getTicket state */}
-          {data?.map((ticket, i) => (
-            <div
-              key={i}
-              className={`tambola-ticket-cell ${ticket ? "hover" : ""}`}
-              onClick={handleClick}
-            >
-              <h5>{ticket}</h5>
-            </div>
-          ))}
         </div>
       </div>
     </div>
