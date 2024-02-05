@@ -24,7 +24,7 @@ const ButtonContainer = ({ data }) => {
   const [animate, setAnimate] = useState(false);
   const [recycle, setRecycle] = useState(false);
 
-  const { mutate, data: scheme } = useMutation({
+  const { mutate } = useMutation({
     mutationFn: RaiseHand,
     onSuccess: (data) => {
       if (data?.type === "first five") setIsFirstFiveClicked(true);

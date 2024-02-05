@@ -10,13 +10,6 @@ import { useEffect, useState } from "react";
 function Ticket() {
   const [ticketData, setTicketData] = useState(false);
 
-  //change the background of block of ticket when clicked
-  // const handleClick = (event) => {
-  //   if (event.currentTarget.textContent) {
-  //     event.currentTarget.classList.add("striked");
-  //   }
-  // };
-
   const { isLoading, data, error, isError } = useQuery({
     queryKey: ["tickets"],
     queryFn: fetchTicket,
@@ -48,7 +41,7 @@ function Ticket() {
                   key={`ticket-${i}`}
                   className={`tambola-ticket-cell ${
                     ticket.key ? "hover" : ""
-                  } ${ticket.isChecked ? "striked" : ""}`}
+                  } ${ticket.isChecked && ticket.key != null ? "striked" : ""}`}
                   onClick={() => {
                     setTicketData((prevObjects) =>
                       prevObjects.map((prevObj) =>
