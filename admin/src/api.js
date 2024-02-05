@@ -50,3 +50,24 @@ export async function getRandomQuestion() {
     throw Error(message);
   }
 }
+
+export async function getAllAnswers() {
+  try {
+    const res = await customRequest.get(`/api/answers`);
+
+    return res?.data?.data;
+  } catch (err) {
+    const message = err?.response?.data?.message || DEFAULT_ERROR_MESSAGE;
+    throw Error(message);
+  }
+}
+export async function getAllQuestions() {
+  try {
+    const res = await customRequest.get(`/api/question/all`);
+
+    return res?.data?.data;
+  } catch (err) {
+    const message = err?.response?.data?.message || DEFAULT_ERROR_MESSAGE;
+    throw Error(message);
+  }
+}

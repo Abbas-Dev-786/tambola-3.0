@@ -40,13 +40,13 @@ module.exports.startNewGame = catchAsync(async (req, res, next) => {
 });
 
 module.exports.getAllQuestions = catchAsync(async (req, res, next) => {
-  if (!isGameStarted) {
-    return next(new AppError("Please start the game", 400));
-  }
+  // if (!isGameStarted) {
+  //   return next(new AppError("Please start the game", 400));
+  // }
 
   res.status(200).json({
     status: "success",
-    data: askedQuestions,
+    data: questions,
     results: askedQuestions.length,
   });
 });

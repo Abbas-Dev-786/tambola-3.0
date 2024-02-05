@@ -8,9 +8,18 @@ import {
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import FlexBetween from "../components/FlexBetween";
 import Header from "../components/Header";
-
+import { useQuery } from "@tanstack/react-query";
+import { getAllAnswers, getAllQuestions } from "../api";
 const Answers = () => {
   const theme = useTheme();
+  const { data: answers } = useQuery({
+    queryKey: ["answers"],
+    queryFn: () => getAllAnswers(),
+  });
+  const { data: questions, isLoading } = useQuery({
+    queryKey: ["questions"],
+    queryFn: () => getAllQuestions(),
+  });
 
   return (
     <Box m="1.5rem 2.5rem">
@@ -46,32 +55,23 @@ const Answers = () => {
           },
         }}
       >
-        <Accordion sx={{ bgcolor: theme.palette.grey[800] }}>
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1-content"
-            id="panel1-header"
-          >
-            Accordion 1
-          </AccordionSummary>
-          <AccordionDetails>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-            malesuada lacus ex, sit amet blandit leo lobortis eget.
-          </AccordionDetails>
-        </Accordion>
-        <Accordion>
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel2-content"
-            id="panel2-header"
-          >
-            Accordion 2
-          </AccordionSummary>
-          <AccordionDetails>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-            malesuada lacus ex, sit amet blandit leo lobortis eget.
-          </AccordionDetails>
-        </Accordion>
+        {isLoading
+          ? "Loading..."
+          : questions.map((e, i) => {
+              return (
+                <Accordion key={i} sx={{ bgcolor: theme.palette.grey[800] }}>
+                  <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel1-content"
+                    id="panel1-header"
+                  >
+                    {e}
+                  </AccordionSummary>
+                  <AccordionDetails>{answers[i]}</AccordionDetails>
+                </Accordion>
+              );
+              // });
+            })}
       </Box>
     </Box>
   );

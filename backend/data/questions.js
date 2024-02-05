@@ -101,7 +101,7 @@ module.exports = [
   "What is the term for the blueprint or template for creating objects in object-oriented programming?",
   "In C programming, what function is used to read formatted input from the standard input stream?",
   "What SQL statement is used to create a new table in a database?",
-  "Name a popular JavaScript library designed to simplify the client-side scripting of HTML.",
+  "Name a popular JavaScript library designed to simplify the client-side scripting of HTML?",
   "What does 'DDL' stand for in the context of database management?",
   "In a relational database, what is a column or set of columns that uniquely identifies each row in a table?",
   "What term is used for a column in a database table that refers to the primary key of another table?",
@@ -135,6 +135,6 @@ module.exports = [
   "How many fingers does the average person have on one hand?",
   "In competitive programming, what does the acronym 'MUACM' stand for?",
   "What is the result of the expression 3 - 3?",
-  "List the numbers from 6 to 10.",
+  "List the numbers from 6 to 10?",
   "What is the output of the code 'peach = 5' in a programming language where this line is valid?",
 ];
