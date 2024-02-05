@@ -4,6 +4,7 @@ import { useMutation } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { getRow } from "../../utils/arrayToObj";
 import { RaiseHand } from "../../api";
+import ConfettiContainer from "../confetti";
 
 const ButtonContainer = ({ data }) => {
   const [isFirstFive, setIsFirstFive] = useState(false);
@@ -20,7 +21,10 @@ const ButtonContainer = ({ data }) => {
   const [isCornerClicked, setIsCornerClicked] = useState(false);
   const [isFullGridClicked, setIsFullGridClicked] = useState(false);
 
-  const { mutate } = useMutation({
+  const [animate, setAnimate] = useState(false);
+  const [recycle, setRecycle] = useState(false);
+
+  const { mutate, data: scheme } = useMutation({
     mutationFn: RaiseHand,
     onSuccess: (data) => {
       if (data?.type === "first five") setIsFirstFiveClicked(true);
@@ -29,6 +33,16 @@ const ButtonContainer = ({ data }) => {
       else if (data?.type === "third row") setIsThirdRowClicked(true);
       else if (data?.type === "corner") setIsCornerClicked(true);
       else if (data?.type === "full") setIsFullGridClicked(true);
+
+      if (data?.type === "full") {
+        setAnimate(true);
+        setRecycle(true);
+      } else {
+        setAnimate(true);
+        setTimeout(() => {
+          setAnimate(false);
+        }, 5200);
+      }
 
       toast.success("Your Request submitted");
     },
@@ -86,6 +100,7 @@ const ButtonContainer = ({ data }) => {
 
   return (
     <div className="row mt-5">
+      {animate && <ConfettiContainer recycle={recycle} />}
       <div className="col">
         <button
           className="btn btn-outline-secondary"
