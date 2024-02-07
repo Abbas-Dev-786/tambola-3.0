@@ -1,5 +1,5 @@
 const Tickets = require("../models/Tickets");
-const Answers = require("../models/Answers");
+const QnA = require("../models/QnA");
 
 const AppError = require("../utils/AppError");
 const catchAsync = require("../utils/catchAsync");
@@ -21,7 +21,7 @@ module.exports.generateTickets = catchAsync(async (req, res, next) => {
     );
   }
 
-  let result = await Answers.find();
+  let result = await QnA.find();
   let answersArray = result[0]["answers"];
 
   let shuffled = answersArray.sort(() => 0.5 - Math.random());

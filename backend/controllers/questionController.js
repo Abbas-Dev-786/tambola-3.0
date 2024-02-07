@@ -1,4 +1,4 @@
-const questions = require("../data/questions");
+const questions = require("../dev-data/questions");
 const AppError = require("../utils/AppError");
 const catchAsync = require("../utils/catchAsync");
 
