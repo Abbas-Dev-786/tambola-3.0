@@ -22,7 +22,7 @@ module.exports.generateTickets = catchAsync(async (req, res, next) => {
   }
 
   let result = await QnA.find();
-  let answersArray = result[0]["answers"];
+  let answersArray = result.map((res) => res.answer);
 
   let shuffled = answersArray.sort(() => 0.5 - Math.random());
 
@@ -53,8 +53,7 @@ module.exports.generateTickets = catchAsync(async (req, res, next) => {
     row3 = row3.sort(() => 0.5 - Math.random());
 
     //combine whole array of answer ticket
-    // let array = row1.concat(row2, row3);
-    const array = [row1, row2, row3];
+    let array = row1.concat(row2, row3);
 
     const newTicket = await Tickets.create({
       answers: array,

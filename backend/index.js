@@ -47,7 +47,7 @@ app.post("/api/admin/login", checkAdmin, login);
 app.get("/api/answers", protect, restrictTo("admin"), getAllAnswers);
 app.get("/api/question", protect, restrictTo("admin"), getRandomQuestion);
 app.get("/api/question/all", protect, restrictTo("admin"), getAllQuestions);
-app.post("/api/generateTicket", protect, restrictTo("admin"), generateTickets);
+app.post("/api/generateTicket", generateTickets);
 app.get("/api/ticket", protect, getTicket);
 app.get(
   "/api/raiseHand/all",
