@@ -1,4 +1,5 @@
 const QnA = require("../models/QnA");
+const RaiseHand = require("../models/RaiseHand");
 const AppError = require("../utils/AppError");
 const catchAsync = require("../utils/catchAsync");
 
@@ -23,17 +24,18 @@ module.exports.getRandomQuestion = catchAsync(async (req, res, next) => {
   // update isAsked field
   await QnA.findByIdAndUpdate(randomQuestion[0]._id, { isAsked: true });
 
-  res
-    .status(200)
-    .json({ status: "success", question: randomQuestion[0].question });
+  res.status(200).json({ status: "success", data: randomQuestion[0].question });
 });
 
 // start game controller
 module.exports.startNewGame = catchAsync(async (req, res, next) => {
   isGameStarted = true;
 
-  // update all fields in QnA model
+  // reset all fields in QnA model
   await QnA.updateMany({}, { isAsked: false });
+
+  // delete all raise hands model
+  await RaiseHand.deleteMany({});
 
   res.status(200).json({ status: "success" });
 });
@@ -53,6 +55,10 @@ module.exports.getAllQuestions = catchAsync(async (req, res, next) => {
 
 // get all asked questions controller
 module.exports.getAllAskedQuestion = catchAsync(async (req, res, next) => {
+  if (!isGameStarted) {
+    return next(new AppError("Please start the game", 400));
+  }
+
   const questions = await QnA.find({ isAsked: true }).sort({ updatedAt: 1 });
 
   res.status(200).json({

@@ -10,7 +10,7 @@ module.exports.raiseHand = catchAsync(async (req, res, next) => {
     return next(new AppError("Enter scheme type", 400));
   }
 
-  const hand = await RaiseHand.create({ name: req.user.name, type });
+  const hand = await RaiseHand.create({ user: req.user._id, type });
 
   res.status(200).json({ status: "success", data: hand });
 });
