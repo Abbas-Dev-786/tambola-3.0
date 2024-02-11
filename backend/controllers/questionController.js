@@ -1,52 +1,63 @@
-const questions = require("../dev-data/questions");
+const QnA = require("../models/QnA");
 const AppError = require("../utils/AppError");
 const catchAsync = require("../utils/catchAsync");
 
 let isGameStarted = false;
-let remainingQuestions = [...questions];
-let askedQuestions = Array(questions.length).fill(null);
 
+// get a random question controller
 module.exports.getRandomQuestion = catchAsync(async (req, res, next) => {
   if (!isGameStarted) {
     return next(new AppError("Please start the game", 400));
   }
 
-  // Check if there are remaining questions
-  if (remainingQuestions.length === 0) {
-    return next(new AppError("No more questions available.", 400));
+  // Find a random question that has not been asked before
+  const randomQuestion = await QnA.aggregate([
+    { $match: { isAsked: false } },
+    { $sample: { size: 1 } },
+  ]);
+
+  if (!randomQuestion.length) {
+    return next(new AppError("No questions available", 404));
   }
 
-  // Generate a random index
-  const randomIndex = Math.floor(Math.random() * remainingQuestions.length);
+  // update isAsked field
+  await QnA.findByIdAndUpdate(randomQuestion[0]._id, { isAsked: true });
 
-  // Get the random question
-  const randomQuestion = remainingQuestions[randomIndex];
-
-  // Remove the selected question to ensure uniqueness
-  remainingQuestions.splice(randomIndex, 1);
-
-  // set asked question
-  askedQuestions[randomIndex] = randomQuestion;
-
-  res.status(200).json({ status: "success", data: randomQuestion });
+  res
+    .status(200)
+    .json({ status: "success", question: randomQuestion[0].question });
 });
 
+// start game controller
 module.exports.startNewGame = catchAsync(async (req, res, next) => {
   isGameStarted = true;
-  remainingQuestions = [...questions];
-  askedQuestions = Array(questions.length).fill(null);
+
+  // update all fields in QnA model
+  await QnA.updateMany({}, { isAsked: false });
 
   res.status(200).json({ status: "success" });
 });
 
+// get all questions controller
 module.exports.getAllQuestions = catchAsync(async (req, res, next) => {
-  // if (!isGameStarted) {
-  //   return next(new AppError("Please start the game", 400));
-  // }
+  const results = await QnA.find({});
+
+  const questions = await results?.map((result) => result.question);
 
   res.status(200).json({
     status: "success",
     data: questions,
-    results: askedQuestions.length,
+    results: questions.length,
+  });
+});
+
+// get all asked questions controller
+module.exports.getAllAskedQuestion = catchAsync(async (req, res, next) => {
+  const questions = await QnA.find({ isAsked: true }).sort({ updatedAt: 1 });
+
+  res.status(200).json({
+    status: "success",
+    data: questions,
+    results: questions.length,
   });
 });

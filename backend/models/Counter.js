@@ -5,7 +5,7 @@ var Schema = mongoose.Schema;
 
 const counterSchema = new Schema({
   _id: { type: String, required: true }, //model on which it has to be applied i.e."ticket"
-  seq: { type: Number, default: 0 }, //current count
+  seq: { type: Number, default: 1000 }, //current count
 });
 
 counterSchema.index({ _id: 1, seq: 1 }, { unique: true }); //starting index

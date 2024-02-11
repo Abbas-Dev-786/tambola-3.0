@@ -7,7 +7,7 @@ const autoIncrementModelID = require("./Counter.js");
 //ticket model
 const ticketSchema = new Schema(
   {
-    id: { type: Number, unique: true, min: 1 }, //User will access particular ticket using its unique id attribute
+    id: { type: Number, unique: true, min: 1000 }, //User will access particular ticket using its unique id attribute
     answers: Array,
   },
   { timestamps: true }

@@ -13,15 +13,16 @@ const {
   restrictTo,
   checkAdmin,
 } = require("./controllers/authController");
-const { getAllAnswers } = require("./controllers/answerController");
 const {
   generateTickets,
   getTicket,
+  getUserTicket,
 } = require("./controllers/ticketController");
 const {
   getRandomQuestion,
   startNewGame,
   getAllQuestions,
+  getAllAskedQuestion,
 } = require("./controllers/questionController");
 const {
   raiseHand,
@@ -40,23 +41,28 @@ app.use(express.json());
 app.use(cors({ origin: "*" }));
 app.use(helmet());
 
-// routes
-app.get("/api/startGame", protect, restrictTo("admin"), startNewGame);
+// routes for login
 app.post("/api/login", login);
 app.post("/api/admin/login", checkAdmin, login);
-app.get("/api/answers", protect, restrictTo("admin"), getAllAnswers);
-app.get("/api/question", protect, restrictTo("admin"), getRandomQuestion);
-app.get("/api/question/all", protect, restrictTo("admin"), getAllQuestions);
+
+// auth middleware
+app.use(protect);
+
+// routes for players
+app.get("/api/ticket", getTicket);
+app.post("/api/raiseHand", raiseHand);
+
+// check admin middleware
+app.use(restrictTo("admin"));
+
+// routes for admin
 app.post("/api/generateTicket", generateTickets);
-app.get("/api/ticket", protect, getTicket);
-app.get(
-  "/api/raiseHand/all",
-  protect,
-  restrictTo("admin"),
-  protect,
-  getAllRaiseHands
-);
-app.post("/api/raiseHand", protect, raiseHand);
+app.get("/api/startGame", startNewGame);
+app.get("/api/question", getRandomQuestion);
+app.get("/api/question/asked/all", getAllAskedQuestion);
+app.get("/api/question/all", getAllQuestions);
+app.get("/api/ticket/user/:id", getUserTicket);
+app.get("/api/raiseHand/all", getAllRaiseHands);
 
 // invalid route handler
 app.all("*", (req, _, next) =>

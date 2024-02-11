@@ -30,13 +30,7 @@ module.exports.login = catchAsync(async (req, res, next) => {
   const user = await User.findOne({ user: userId }).select("+password");
 
   // check password
-  //   if (!user || !(await user.comparePasswords(password, user.password))) {
-  //     return next(
-  //       new AppError("Invalid credentials. Please check userID or password", 400)
-  //     );
-  //   }
-
-  if (!user || user.password != password) {
+  if (!user || !(await user.comparePasswords(password, user.password))) {
     return next(
       new AppError("Invalid credentials. Please check userID or password", 400)
     );
@@ -85,7 +79,7 @@ module.exports.protect = catchAsync(async (req, res, next) => {
 module.exports.restrictTo = (role) => {
   // allows role based access to users
   return (req, res, next) => {
-    if (role === req?.user?.role) {
+    if (role !== req?.user?.role) {
       return next(
         new AppError("You do not have permission to perform this action", 403)
       );
@@ -98,7 +92,7 @@ module.exports.restrictTo = (role) => {
 module.exports.checkAdmin = catchAsync(async (req, res, next) => {
   const user = await User.findOne({ user: req.body.userId });
 
-  if (user?.role === "admin") {
+  if (user?.role != "admin") {
     return next(new AppError("You are not a Admin", 400));
   }
 

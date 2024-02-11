@@ -4,6 +4,7 @@ const QnA = require("../models/QnA");
 const AppError = require("../utils/AppError");
 const catchAsync = require("../utils/catchAsync");
 
+// get ticket controller for logged in players
 module.exports.getTicket = catchAsync(async (req, res, next) => {
   let ticket = await Tickets.findOne({ id: req.user.id });
 
@@ -14,6 +15,18 @@ module.exports.getTicket = catchAsync(async (req, res, next) => {
   res.status(200).json({ status: "success", data: ticket });
 });
 
+// get any users ticket controller only for admin
+module.exports.getUserTicket = catchAsync(async (req, res, next) => {
+  let ticket = await Tickets.findOne({ id: req.params.id });
+
+  if (!ticket) {
+    return next(new AppError("Ticket does not exists for the user", 404));
+  }
+
+  res.status(200).json({ status: "success", data: ticket });
+});
+
+// generate ticket controller
 module.exports.generateTickets = catchAsync(async (req, res, next) => {
   if (!req.body.count) {
     return next(

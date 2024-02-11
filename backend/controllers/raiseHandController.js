@@ -2,6 +2,7 @@ const RaiseHand = require("../models/RaiseHand");
 const AppError = require("../utils/AppError");
 const catchAsync = require("../utils/catchAsync");
 
+// raise hand controller for players
 module.exports.raiseHand = catchAsync(async (req, res, next) => {
   const { type } = req.body;
 
@@ -14,8 +15,9 @@ module.exports.raiseHand = catchAsync(async (req, res, next) => {
   res.status(200).json({ status: "success", data: hand });
 });
 
+// get all raised hands only for admin
 module.exports.getAllRaiseHands = catchAsync(async (req, res, next) => {
-  const hands = await RaiseHand.find({});
+  const hands = await RaiseHand.find({}).sort({ createdAt: 1 });
 
   res
     .status(200)
