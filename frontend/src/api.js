@@ -40,36 +40,6 @@ export async function fetchTicket() {
   }
 }
 
-// export async function RaiseHand() {
-//   //get current time
-//   var timestamp = Date.now();
-//   timestamp = new Intl.DateTimeFormat("en-US", {
-//     year: "numeric",
-//     month: "2-digit",
-//     day: "2-digit",
-//     hour: "2-digit",
-//     minute: "2-digit",
-//     second: "2-digit",
-//   }).format(timestamp);
-//   //get user name
-//   var user = JSON.parse(localStorage.getItem("user"))?.user?.name;
-
-//   //create a form data with current time and name of user data
-//   var formData = new FormData();
-//   formData.append("Timestamp", timestamp);
-//   formData.append("Name", user);
-
-//   //URL of google sheets api
-//   const URL =
-//     "https://script.google.com/macros/s/AKfycbwd2P_htjEqgOllrLlaNhp3qkEv6eCJh3RuweXYbxaSuQM57_HO6Sp3FTGZ7pFeDNE/exec";
-
-//   // insert data in google sheet
-//   const res = await axios.post(URL);
-//   console.log(res);
-
-//   return res;
-// }
-
 export const RaiseHand = async (data) => {
   try {
     const res = await customRequest.post(`/api/raiseHand`, data);
