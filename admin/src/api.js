@@ -51,9 +51,9 @@ export async function getRandomQuestion() {
   }
 }
 
-export async function getAllAnswers() {
+export async function getAllAskedQnA() {
   try {
-    const res = await customRequest.get(`/api/answers`);
+    const res = await customRequest.get(`/api/question/asked/all`);
 
     return res?.data?.data;
   } catch (err) {
@@ -61,11 +61,12 @@ export async function getAllAnswers() {
     throw Error(message);
   }
 }
-export async function getAllQuestions() {
-  try {
-    const res = await customRequest.get(`/api/question/all`);
 
-    return res?.data?.data;
+export async function getUserTicket({ queryKey }) {
+  try {
+    const res = await customRequest.get(`/api/ticket/user/${queryKey[1]}`);
+
+    return res?.data?.data?.answers;
   } catch (err) {
     const message = err?.response?.data?.message || DEFAULT_ERROR_MESSAGE;
     throw Error(message);

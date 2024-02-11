@@ -11,6 +11,7 @@ import PageNotFound from "./pages/PageNotFound";
 import Dashboard from "./pages/Dashboard";
 import Question from "./pages/Question";
 import Answers from "./pages/Answers";
+import Ticket from "./pages/Ticket";
 
 const queryClient = new QueryClient({
   defaultOptions: { queries: { staleTime: 0 } },
@@ -24,12 +25,13 @@ const App = () => {
         <CssBaseline />
         <Notification />
 
-        <Navbar />
+        {<Navbar />}
         <Routes>
           <Route element={<PrivateRoute />}>
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/question" element={<Question />} />
             <Route path="/answers" element={<Answers />} />
+            <Route path="/ticket/:id" element={<Ticket />} />
           </Route>
 
           <Route path="/login" element={<Login />} />

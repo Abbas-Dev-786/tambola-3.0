@@ -9,16 +9,13 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import FlexBetween from "../components/FlexBetween";
 import Header from "../components/Header";
 import { useQuery } from "@tanstack/react-query";
-import { getAllAnswers, getAllQuestions } from "../api";
+import { getAllAskedQnA } from "../api";
 const Answers = () => {
   const theme = useTheme();
-  const { data: answers } = useQuery({
-    queryKey: ["answers"],
-    queryFn: () => getAllAnswers(),
-  });
-  const { data: questions, isLoading } = useQuery({
-    queryKey: ["questions"],
-    queryFn: () => getAllQuestions(),
+
+  const { data, isLoading } = useQuery({
+    queryKey: ["asked-qna"],
+    queryFn: getAllAskedQnA,
   });
 
   return (
@@ -57,7 +54,7 @@ const Answers = () => {
       >
         {isLoading
           ? "Loading..."
-          : questions.map((e, i) => {
+          : data.map((qna, i) => {
               return (
                 <Accordion key={i} sx={{ bgcolor: theme.palette.grey[800] }}>
                   <AccordionSummary
@@ -65,9 +62,9 @@ const Answers = () => {
                     aria-controls="panel1-content"
                     id="panel1-header"
                   >
-                    {e}
+                    {qna.question}
                   </AccordionSummary>
-                  <AccordionDetails>{answers[i]}</AccordionDetails>
+                  <AccordionDetails>{qna.answer}</AccordionDetails>
                 </Accordion>
               );
               // });

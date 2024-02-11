@@ -1,0 +1,108 @@
+.tambola-ticket {
+  display: grid;
+  grid-template-columns: repeat(9, 10vw [col-start]);
+  grid-template-rows: repeat(3, 5vw [col-start]);
+  column-gap: 1vw;
+  row-gap: 1vw;
+  /* position: absolute;
+    top: 50%;
+    transform: translateY(-50%); */
+  background: rgba(255, 255, 255, 0.89);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.2);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  /* padding: 2vw; */
+}
+
+.tambola-ticket-cell {
+  background-color: #c9cbcc93;
+  border-radius: 2.5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: 1.5vw;
+  font-weight: bold;
+  color: #555;
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-wrap: break-word;
+}
+
+.tambola-ticket-cell h5 {
+  font-size: 0.8em;
+  word-wrap: break-word;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-wrap: break-word;
+}
+
+.board {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(80vh - 80px);
+}
+
+.striked {
+  background-color: #6cb4ee;
+  color: #000;
+}
+
+.hover:hover {
+  background-color: #82bef0;
+  overflow: visible;
+}
+
+@media only screen and (max-width: 786px) {
+  .tambola-ticket-cell {
+    font-size: 2vw;
+  }
+
+  .tambola-ticket-cell p {
+    font-size: 0.6em;
+  }
+}
+
+@media (min-width: 550) and (max-width: 785) {
+  .tambola-ticket-cell h5 {
+    font-size: 0.5em;
+    color: red;
+  }
+}
+
+@media only screen and (min-width: 786px) {
+  .tambola-ticket {
+    grid-template-columns: repeat(9, 10vw [col-start]);
+    grid-template-rows: repeat(3, 5vw [col-start]);
+    column-gap: 1vw;
+    row-gap: 1vw;
+    margin-top: 2rem;
+    padding: 1vw;
+  }
+
+  .tambola-ticket-cell {
+    font-size: 1vw;
+  }
+
+  .tambola-ticket-cell h5 {
+    font-size: 1em;
+  }
+}
+
+/* 576 */
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}

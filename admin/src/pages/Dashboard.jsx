@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { Box, useTheme, Button } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
-// import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import Header from "../components/Header";
 import { raiseHandColumns } from "../columns";
@@ -10,53 +10,39 @@ import { getAllRaiseHands } from "../api";
 
 const Dashboard = () => {
   const theme = useTheme();
+  const navigate = useNavigate();
 
-  //   const queryClient = useQueryClient();
   const { data, isLoading } = useQuery({
     queryKey: ["hands"],
     queryFn: getAllRaiseHands,
   });
 
-  //   const { mutate } = useMutation({
-  //     mutationFn: deleteUser,
-  //     onError: (err) => {
-  //       toast.error(err.message);
-  //     },
-  //     onSuccess: () => {
-  //       queryClient.invalidateQueries({ queryKey: ["customers"] });
-  //       toast.success("User Deleted Successfully");
-  //     },
-  //   });
-
   const actionFieldColumn = useMemo(
     () => [
       {
-        field: "block",
-        headerName: "Block User",
+        field: "ticket",
+        headerName: "View Ticket",
+        flex: 0.3,
         renderCell: (params) => {
           const onClick = () => {
-            const confirmation = confirm("Are you sure");
-
-            // if (confirmation) {
-            //   mutate(params.row._id);
-            // }
+            navigate(`/ticket/${params?.row?.user?.id}`);
           };
 
           return (
             <Button
               variant="outlined"
               color="secondary"
-              size="small"
+              // size="small"
+              sx={{ px: 7 }}
               onClick={onClick}
             >
-              Block
+              View Ticket
             </Button>
           );
         },
       },
     ],
-    []
-    // [mutate]
+    [navigate]
   );
 
   return (
