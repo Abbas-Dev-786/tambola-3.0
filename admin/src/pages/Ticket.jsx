@@ -1,4 +1,4 @@
-import "./Ticket.css";
+import "./ticket.css";
 import { Typography, Box } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import { toast } from "react-toastify";
