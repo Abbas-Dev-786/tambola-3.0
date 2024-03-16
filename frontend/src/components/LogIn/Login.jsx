@@ -11,6 +11,7 @@ import "./Login.css";
 //Login component
 const Login = () => {
   const [user, setUser] = useState({ userId: "", password: "" }); //get user id
+  const [isPasswordToggle, setPasswordToggle] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -61,14 +62,36 @@ const Login = () => {
             />
 
             {/* take password and store it in password state */}
-            <input
+            {/* <input
               className="form-control form-control-lg  mt-3"
               type="password"
               value={user?.password}
               onChange={(e) => setUser({ ...user, password: e.target.value })}
               placeholder="Enter password"
               required
-            />
+            /> */}
+            <div className="input-group mt-3">
+              <input
+                type={isPasswordToggle ? "text" : "password"}
+                className="form-control form-control-lg"
+                placeholder="Enter password"
+                value={user?.password}
+                onChange={(e) => setUser({ ...user, password: e.target.value })}
+                required
+              />
+              <button
+                className="btn btn-outline-secondary"
+                type="button"
+                onClick={() => setPasswordToggle((prev) => !prev)}
+              >
+                <i
+                  className={`bi ${
+                    isPasswordToggle ? "bi-eye" : "bi-eye-slash"
+                  }`}
+                ></i>
+                {/* <i class="bi "></i> */}
+              </button>
+            </div>
 
             {/* try to login user by handlelogin function */}
             <div className="d-grid">

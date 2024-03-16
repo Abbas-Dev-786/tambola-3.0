@@ -8,6 +8,7 @@ import Login from "./components/LogIn/Login";
 import Notification from "./components/Notification";
 
 import "bootstrap/scss/bootstrap.scss";
+import "bootstrap-icons/font/bootstrap-icons.css";
 //eslint-disable-next-line
 import * as bootstrap from "bootstrap";
 
