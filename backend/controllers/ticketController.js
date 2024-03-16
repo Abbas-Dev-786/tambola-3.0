@@ -3,6 +3,7 @@ const QnA = require("../models/QnA");
 
 const AppError = require("../utils/AppError");
 const catchAsync = require("../utils/catchAsync");
+const shuffleArray = require("../utils/shuffleArray");
 
 // get ticket controller for logged in players
 module.exports.getTicket = catchAsync(async (req, res, next) => {
@@ -37,39 +38,23 @@ module.exports.generateTickets = catchAsync(async (req, res, next) => {
   let result = await QnA.find();
   let answersArray = result.map((res) => res.answer);
 
-  let shuffled = answersArray.sort(() => 0.5 - Math.random());
-
   const generatedTickets = [];
 
   //create requested tickets
   for (let i = 0; i < req.body.count; i++) {
-    //create 3 constant rows for ticket with same empty spaces
-    let row1 = shuffled
-      .slice(0, 5)
-      .sort(() => 0.5 - Math.random())
-      .concat(new Array(4).fill(null))
-      .sort(() => 0.5 - Math.random());
-    row1 = row1.sort(() => 0.5 - Math.random());
+    let shuffled = shuffleArray(answersArray.slice()); // make a copy before shuffling
+    let ticket = [];
 
-    let row2 = shuffled
-      .slice(5, 10)
-      .sort(() => 0.5 - Math.random())
-      .concat(new Array(4).fill(null))
-      .sort(() => 0.5 - Math.random());
-    row2 = row2.sort(() => 0.5 - Math.random());
-
-    let row3 = shuffled
-      .slice(10, 15)
-      .sort(() => 0.5 - Math.random())
-      .concat(new Array(4).fill(null))
-      .sort(() => 0.5 - Math.random());
-    row3 = row3.sort(() => 0.5 - Math.random());
-
-    //combine whole array of answer ticket
-    let array = row1.concat(row2, row3);
+    // Create rows for ticket with 5 answers and 4 empty spaces each
+    for (let j = 0; j < 3; j++) {
+      let row = shuffled
+        .slice(j * 5, (j + 1) * 5)
+        .concat(new Array(4).fill(null));
+      ticket = ticket.concat(row).sort(() => 0.5 - Math.random());
+    }
 
     const newTicket = await Tickets.create({
-      answers: array,
+      answers: ticket,
     }); // create new ticket
     generatedTickets.push(newTicket);
   }
