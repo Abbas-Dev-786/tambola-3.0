@@ -48,6 +48,7 @@ const Question = () => {
         alignItems="center"
         justifyContent="center"
         textAlign="center"
+        overflow="auto"
         sx={{
           "& .MuiDataGrid-root": {
             border: "none",
@@ -74,7 +75,7 @@ const Question = () => {
         }}
       >
         <Typography variant="h1">{isPending ? "Loading..." : data}</Typography>
-        {!data && (
+        {!data && !isPending && (
           <Typography variant="h2">Waiting for the Question</Typography>
         )}
       </Box>
