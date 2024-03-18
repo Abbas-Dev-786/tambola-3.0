@@ -56,7 +56,9 @@ const Login = () => {
               className="form-control form-control-lg mt-3"
               type="text"
               value={user?.userId}
-              onChange={(e) => setUser({ ...user, userId: e.target.value })}
+              onChange={(e) =>
+                setUser({ ...user, userId: e.target.value.trim() })
+              }
               placeholder="Enter User ID"
               required
             />
@@ -76,7 +78,9 @@ const Login = () => {
                 className="form-control form-control-lg"
                 placeholder="Enter password"
                 value={user?.password}
-                onChange={(e) => setUser({ ...user, password: e.target.value })}
+                onChange={(e) =>
+                  setUser({ ...user, password: e.target.value.trim() })
+                }
                 required
               />
               <button
@@ -89,7 +93,6 @@ const Login = () => {
                     isPasswordToggle ? "bi-eye" : "bi-eye-slash"
                   }`}
                 ></i>
-                {/* <i class="bi "></i> */}
               </button>
             </div>
 
