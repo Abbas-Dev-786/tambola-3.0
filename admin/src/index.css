@@ -36,3 +36,22 @@ a {
   gap: 30px;
   justify-content: center;
 }
+
+.test {
+  font-size: 21px;
+}
+
+.test-2 {
+  font-size: 21px;
+  font-weight: 700;
+}
+
+.test-3 {
+  font-size: 22px;
+}
+
+.test-4 {
+  font-size: 18px;
+  font-weight: 500;
+  text-transform: capitalize;
+}

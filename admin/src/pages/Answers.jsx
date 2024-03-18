@@ -1,15 +1,11 @@
-import {
-  Box,
-  useTheme,
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-} from "@mui/material";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { Box, useTheme } from "@mui/material";
 import FlexBetween from "../components/FlexBetween";
 import Header from "../components/Header";
 import { useQuery } from "@tanstack/react-query";
 import { getAllAskedQnA } from "../api";
+import { answerColumns } from "../columns";
+import { DataGrid } from "@mui/x-data-grid";
+
 const Answers = () => {
   const theme = useTheme();
 
@@ -52,23 +48,15 @@ const Answers = () => {
           },
         }}
       >
-        {isLoading
-          ? "Loading..."
-          : data.map((qna, i) => {
-              return (
-                <Accordion key={i} sx={{ bgcolor: theme.palette.grey[800] }}>
-                  <AccordionSummary
-                    expandIcon={<ExpandMoreIcon />}
-                    aria-controls="panel1-content"
-                    id="panel1-header"
-                  >
-                    {qna.question}
-                  </AccordionSummary>
-                  <AccordionDetails>{qna.answer}</AccordionDetails>
-                </Accordion>
-              );
-              // });
-            })}
+        <DataGrid
+          loading={isLoading}
+          getRowId={(row) => row._id}
+          rows={data || []}
+          columns={answerColumns}
+          rowCount={data?.length || 0}
+          pagination
+          pageSizeOptions={[10, 20, 40, 60, 80, 100]}
+        />
       </Box>
     </Box>
   );
