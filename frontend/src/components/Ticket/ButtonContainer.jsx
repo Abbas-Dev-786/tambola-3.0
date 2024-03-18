@@ -103,7 +103,11 @@ const ButtonContainer = ({ data }) => {
       {animate && <ConfettiContainer recycle={recycle} />}
       <div className="col">
         <button
-          className="btn btn-outline-secondary"
+          className={`btn ${
+            !isFirstFive && !isFirstFiveClicked
+              ? "btn-outline-secondary"
+              : "btn-secondary"
+          }`}
           disabled={!isFirstFive && !isFirstFiveClicked}
           onClick={() => mutate({ type: "first five" })}
         >
@@ -112,7 +116,11 @@ const ButtonContainer = ({ data }) => {
       </div>
       <div className="col">
         <button
-          className="btn btn-outline-secondary"
+          className={`btn ${
+            !isFirstRow && !isFirstRowClicked
+              ? "btn-outline-secondary"
+              : "btn-secondary"
+          }`}
           disabled={!isFirstRow && !isFirstRowClicked}
           onClick={() => mutate({ type: "first row" })}
         >
@@ -121,7 +129,11 @@ const ButtonContainer = ({ data }) => {
       </div>
       <div className="col">
         <button
-          className="btn btn-outline-secondary"
+          className={`btn ${
+            !isSecondRow && !isSecondRowClicked
+              ? "btn-outline-secondary"
+              : "btn-secondary"
+          }`}
           disabled={!isSecondRow && !isSecondRowClicked}
           onClick={() => mutate({ type: "second row" })}
         >
@@ -130,7 +142,11 @@ const ButtonContainer = ({ data }) => {
       </div>
       <div className="col">
         <button
-          className="btn btn-outline-secondary"
+          className={`btn ${
+            !isThirdRow && !isThirdRowClicked
+              ? "btn-outline-secondary"
+              : "btn-secondary"
+          }`}
           disabled={!isThirdRow && !isThirdRowClicked}
           onClick={() => mutate({ type: "third row" })}
         >
@@ -139,7 +155,11 @@ const ButtonContainer = ({ data }) => {
       </div>
       <div className="col">
         <button
-          className="btn btn-outline-secondary"
+          className={`btn ${
+            !isCorner && !isCornerClicked
+              ? "btn-outline-secondary"
+              : "btn-secondary"
+          }`}
           onClick={() => mutate({ type: "corner" })}
           disabled={!isCorner && !isCornerClicked}
         >
@@ -148,7 +168,11 @@ const ButtonContainer = ({ data }) => {
       </div>
       <div className="col">
         <button
-          className="btn btn-outline-secondary"
+          className={`btn ${
+            !isFullGrid && !isFullGridClicked
+              ? "btn-outline-secondary"
+              : "btn-secondary"
+          }`}
           disabled={!isFullGrid && !isFullGridClicked}
           onClick={() => mutate({ type: "full" })}
         >
