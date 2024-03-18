@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const raiseHandSchema = new mongoose.Schema(
   {
     user: {
-      type: mongoose.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: "players",
       required: [true, "User should be there"],
     },
