@@ -78,6 +78,7 @@ const Question = () => {
           <Typography
             variant="h1"
             fontSize={60}
+            className="question-style"
             // lineHeight="100px"
             // sx={{ whiteSpace: "pre-wrap" }}
           >
