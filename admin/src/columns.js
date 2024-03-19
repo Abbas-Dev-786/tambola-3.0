@@ -24,7 +24,7 @@ export const raiseHandColumns = [
 export const answerColumns = [
   {
     field: "id",
-    headerName: "number",
+    headerName: "Number",
     filterable: false,
     cellClassName: "test",
     renderCell: (params) =>
