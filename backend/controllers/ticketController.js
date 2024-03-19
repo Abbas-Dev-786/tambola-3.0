@@ -61,3 +61,27 @@ module.exports.generateTickets = catchAsync(async (req, res, next) => {
 
   res.status(201).json({ status: "success", data: generatedTickets });
 });
+
+module.exports.generateTicketMiddleware = catchAsync(async (req, res, next) => {
+  let result = await QnA.find();
+  let answersArray = result.map((res) => res.answer);
+
+  //create requested tickets
+  let shuffled = shuffleArray(answersArray.slice()); // make a copy before shuffling
+  let ticket = [];
+
+  // Create rows for ticket with 5 answers and 4 empty spaces each
+  for (let j = 0; j < 3; j++) {
+    let row = shuffled
+      .slice(j * 5, (j + 1) * 5)
+      .concat(new Array(4).fill(null));
+    ticket = ticket.concat(row).sort(() => 0.5 - Math.random());
+  }
+
+  const newTicket = await Tickets.create({
+    answers: ticket,
+  }); // create new ticket
+
+  req.ticket = newTicket;
+  next();
+});

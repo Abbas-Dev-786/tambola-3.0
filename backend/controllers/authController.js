@@ -19,6 +19,16 @@ const createAndSendToken = (res, user) => {
   res.status(200).json({ status: "success", data: { user, token } });
 };
 
+module.exports.register = catchAsync(async (req, res, next) => {
+  const user = await User.create({
+    ...req.body,
+    id: req.ticket.id,
+    user: `MUACM_${req.ticket.id}`,
+  });
+
+  res.status(201).json({ status: "success", data: { user } });
+});
+
 module.exports.login = catchAsync(async (req, res, next) => {
   const { userId, password } = req.body;
 

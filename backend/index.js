@@ -12,11 +12,13 @@ const {
   protect,
   restrictTo,
   checkAdmin,
+  register,
 } = require("./controllers/authController");
 const {
   generateTickets,
   getTicket,
   getUserTicket,
+  generateTicketMiddleware,
 } = require("./controllers/ticketController");
 const {
   getRandomQuestion,
@@ -65,6 +67,8 @@ app.get("/api/question/asked/all", getAllAskedQuestion);
 app.get("/api/question/all", getAllQuestions);
 app.get("/api/ticket/user/:id", getUserTicket);
 app.get("/api/raiseHand/all", getAllRaiseHands);
+
+app.post("/api/register", generateTicketMiddleware, register);
 
 // invalid route handler
 app.all("*", (req, _, next) =>
