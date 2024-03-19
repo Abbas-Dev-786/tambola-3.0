@@ -33,6 +33,8 @@ export const answerColumns = [
   {
     field: "question",
     headerName: "Question",
+    renderCell: (params) =>
+      params.value.type === "img" ? "Image Question" : params.value.question,
     cellClassName: "test",
     flex: 1,
   },

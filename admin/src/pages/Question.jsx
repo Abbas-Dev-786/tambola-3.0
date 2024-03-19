@@ -74,8 +74,31 @@ const Question = () => {
           },
         }}
       >
-        <Typography variant="h1">{isPending ? "Loading..." : data}</Typography>
-        {!data && !isPending && (
+        {data?.type == "text" && (
+          <Typography
+            variant="h1"
+            fontSize={60}
+            // lineHeight="100px"
+            // sx={{ whiteSpace: "pre-wrap" }}
+          >
+            {isPending ? "Loading..." : data?.question}
+          </Typography>
+        )}
+
+        {data?.type == "img" && (
+          <img
+            src={data?.question}
+            alt="code-snippet"
+            style={{
+              height: "90%",
+              width: "70%",
+              objectFit: "fill",
+              objectPosition: "center",
+            }}
+          />
+        )}
+
+        {!data?.question && !isPending && (
           <Typography variant="h2">Waiting for the Question</Typography>
         )}
       </Box>
