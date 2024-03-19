@@ -24,7 +24,7 @@ module.exports.getRandomQuestion = catchAsync(async (req, res, next) => {
   // update isAsked field
   await QnA.findByIdAndUpdate(randomQuestion[0]._id, { isAsked: true });
 
-  res.status(200).json({ status: "success", data: randomQuestion[0].question });
+  res.status(200).json({ status: "success", data: randomQuestion[0] });
 });
 
 // start game controller
@@ -36,6 +36,13 @@ module.exports.startNewGame = catchAsync(async (req, res, next) => {
 
   // delete all raise hands model
   await RaiseHand.deleteMany({});
+
+  res.status(200).json({ status: "success" });
+});
+
+// start game controller
+module.exports.continueGame = catchAsync(async (req, res, next) => {
+  isGameStarted = true;
 
   res.status(200).json({ status: "success" });
 });

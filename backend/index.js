@@ -23,6 +23,7 @@ const {
   startNewGame,
   getAllQuestions,
   getAllAskedQuestion,
+  continueGame,
 } = require("./controllers/questionController");
 const {
   raiseHand,
@@ -58,6 +59,7 @@ app.use(restrictTo("admin"));
 // routes for admin
 app.post("/api/generateTicket", generateTickets);
 app.get("/api/startGame", startNewGame);
+app.get("/api/continueGame", continueGame);
 app.get("/api/question", getRandomQuestion);
 app.get("/api/question/asked/all", getAllAskedQuestion);
 app.get("/api/question/all", getAllQuestions);
