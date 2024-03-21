@@ -15,6 +15,8 @@ const Question = () => {
     },
   });
 
+  console.log(isPending);
+
   return (
     <Box m="1.5rem 2.5rem">
       <FlexBetween>
@@ -98,6 +100,18 @@ const Question = () => {
             }}
           />
         )}
+
+        {
+          <Typography
+            variant="h1"
+            fontSize={53}
+            className="question-style"
+            // lineHeight="100px"
+            // sx={{ whiteSpace: "pre-wrap" }}
+          >
+            {isPending ? "Loading..." : ""}
+          </Typography>
+        }
 
         {!data?.question && !isPending && (
           <Typography variant="h2">Waiting for the Question</Typography>
