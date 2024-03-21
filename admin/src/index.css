@@ -57,6 +57,6 @@ a {
 }
 
 .question-style {
-  line-height: 100px;
+  line-height: 80px !important;
   white-space: pre-wrap;
 }
